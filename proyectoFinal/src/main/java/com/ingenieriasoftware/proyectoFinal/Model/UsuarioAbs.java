@@ -56,4 +56,15 @@ public abstract class UsuarioAbs {
         this.fechaRegistro = fechaRegistro;
     }
     
+    protected String logIN(){
+        return "";
+    }
+    
+    protected String logOut(){
+        return "";
+    }
+    
+    protected String actualizarPerfil(){
+        return "";
+    }
 }

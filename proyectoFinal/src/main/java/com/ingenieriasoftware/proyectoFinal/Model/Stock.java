@@ -4,20 +4,24 @@
  */
 package com.ingenieriasoftware.proyectoFinal.Model;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
 /**
  *
  * @author yanpi
  */
-public class Stock implements Prenda{
+public class Stock {
     private int id;
     private int cantidad;
-    private List<Prenda> prendas;
+    private Map<Class<? extends Prenda>, List<Prenda>> prendas;
     private Date fechaUltimaActualizacion;
     
-    public Stock(){
-    
+    public Stock(Prenda prenda){
+        this.prendas = new HashMap<Class<? extends Prenda>, List<Prenda>>();
+        agregarPrenda(prenda);
+        this.fechaUltimaActualizacion = new Date(); 
     }
     
     public String agregarPrenda(String material, int cantidad){

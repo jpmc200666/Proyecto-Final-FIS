@@ -16,8 +16,9 @@ public class Pedido {
     private Pago pago;
     private Carrito carrito;
     
-    public Pedido(){
-        
+    public Pedido(MetodosPago metodoPago, Carrito carrito){
+        this.pago = new Pago(metodoPago);
+        this.carrito = carrito;
     }
     
     public Pedido crearPago(){

@@ -12,15 +12,15 @@ import java.util.Date;
 public class Pago {
     private String nombre;
     private int cedula;
-    private Enum metodoPago;
+    private MetodosPago metodoPago;
     private String idTransaccion;
     private int idPedido;
     private Date fechaTransaccion;
     private String estado;
     private String plataforma;
     
-    public Pago(){
-        
+    public Pago(MetodosPago metodoPago){
+        this.metodoPago = metodoPago;
     }
     
     public boolean pagar(){

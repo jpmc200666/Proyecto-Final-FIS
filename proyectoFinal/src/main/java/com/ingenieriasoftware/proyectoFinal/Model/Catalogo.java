@@ -5,6 +5,7 @@
 package com.ingenieriasoftware.proyectoFinal.Model;
 
 import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author yanpi
@@ -14,8 +15,9 @@ public class Catalogo {
     private boolean ordenamiento;
     private List<Estampa> listaEstampas;
     
-    public Catalogo(){
-        
+    public Catalogo(Estampa estampa){
+        this.listaEstampas = new ArrayList();
+        this.listaEstampas.add(estampa);
     }
     
     public List<Estampa> buscarEstampa(){

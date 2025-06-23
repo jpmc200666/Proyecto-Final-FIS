@@ -5,6 +5,7 @@
 package com.ingenieriasoftware.proyectoFinal.Model;
 
 import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author yanpi
@@ -12,11 +13,12 @@ import java.util.List;
 public class Artista {
     
     private List<Estampa> estampasPublicadas;
-    private List<Catalogos> catalogos;
+    private List<Catalogo> catalogos;
     private double gananciasTotales;
     
-    public Artista(){
-        
+    public Artista(Catalogo catalogo){
+        this.catalogos = new ArrayList<>();
+        this.catalogos.add(catalogo);
     }
     
     public String subirEstampa(Catalogo catalogo, Estampa estampa){

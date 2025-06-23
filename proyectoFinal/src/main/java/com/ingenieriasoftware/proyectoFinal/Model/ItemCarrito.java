@@ -12,4 +12,8 @@ public class ItemCarrito implements Prenda{
     private int itemId;
     int cantidad;
     Prenda prenda;
+    
+    public ItemCarrito(){
+        
+    }
 }

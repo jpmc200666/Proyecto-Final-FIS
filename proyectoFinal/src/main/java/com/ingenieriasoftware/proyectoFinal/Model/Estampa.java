@@ -6,6 +6,7 @@ package com.ingenieriasoftware.proyectoFinal.Model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author yanpi
@@ -22,8 +23,10 @@ public class Estampa {
     private Date fechaPublicacion;
     private boolean estado;
     
-    public Estampa(){
-        
+    public Estampa(String url, String descripcion){
+        this.imagenes = new ArrayList<>();
+        Imagen nueva = new Imagen(url, descripcion);
+        this.imagenes.add(nueva);
     }
     
     public void calificarEstampa(int calificacion){

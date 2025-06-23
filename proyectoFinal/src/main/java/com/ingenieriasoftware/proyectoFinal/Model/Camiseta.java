@@ -8,16 +8,16 @@ package com.ingenieriasoftware.proyectoFinal.Model;
  *
  * @author yanpi
  */
-public class Camiseta {
+public class Camiseta implements Prenda{
     private int id;
     private String color;
-    private enum talla;
+    private Tallas talla;
     private String material;
     private double precioFinal;
     private EstampaAplicada estampaAplicada;
     
-    public Camiseta(){
-        
+    public Camiseta(Tallas talla){
+        this.talla = talla;
     }
     
     public Camiseta aplicarEstampa(EstampaAplicada estampaAplicada){

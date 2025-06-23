@@ -6,19 +6,22 @@ package com.ingenieriasoftware.proyectoFinal.Model;
 
 import java.util.List;
 import java.util.Date;
+import java.util.ArrayList;
 /**
  *
  * @author yanpi
  */
 public class Carrito {
     private int id;
-    private list<ItemCarrito> elementosCarrito;
+    private List<ItemCarrito> elementosCarrito;
     private Date fechaCreacion;
     private int vigencia;
     private double totalCarrito;
     
     public Carrito(){
-        
+        this.elementosCarrito = new ArrayList<>();
+        ItemCarrito nuevo = new ItemCarrito();
+        this.elementosCarrito.add(nuevo);
     }
     
     public void agregarItemCarrito(ItemCarrito item){

@@ -13,7 +13,8 @@ public class Imagen {
     private String url;
     private String descripcion;
     
-    public Imagen(){
-        
+    public Imagen(String url, String descripcion){
+        this.url = url;
+        this.descripcion = descripcion;
     }
 }

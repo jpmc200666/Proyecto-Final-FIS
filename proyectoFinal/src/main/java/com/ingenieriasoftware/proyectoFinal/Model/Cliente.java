@@ -10,11 +10,13 @@ import java.util.List;
  * @author yanpi
  */
 public class Cliente extends UsuarioAbs{
-    private list<Pedido> historialCompras;
+    private List<Pedido> historialCompras;
     private Pedido pedido;
-    
+    private Carrito carrito;
+            
     public Cliente(){
-        
+        this.carrito = new Carrito();
+        this.pedido = new Pedido(MetodosPago.MASTERCARD, carrito);
     }
     
     public Pedido realizarPedido(Pago metodoPago, String direccion){
