@@ -30,14 +30,14 @@ public class Artista {
     }
     
     public List<Catalogo> listaCatalogos(){
-        
+        return null;
     }
     
     public double consultarGanancias(){
-        
+        return 0.0;
     }
     
     public double obtenerRatingPromedio(){
-        
+        return 0.0;
     }
 }

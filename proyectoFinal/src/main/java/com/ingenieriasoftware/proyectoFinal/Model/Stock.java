@@ -20,16 +20,16 @@ public class Stock {
     
     public Stock(Prenda prenda){
         this.prendas = new HashMap<Class<? extends Prenda>, List<Prenda>>();
-        agregarPrenda(prenda);
+        //agregarPrenda(p);
         this.fechaUltimaActualizacion = new Date(); 
     }
     
     public String agregarPrenda(String material, int cantidad){
-        
+        return "";
     }
     
     public int consultarDisponibilidad(String material){
-        
+        return 0;
     }
     
     public void notificarStockBajo(){

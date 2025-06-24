@@ -19,10 +19,10 @@ public class EstampaAplicada {
     }
     
     public EstampaAplicada moverEstampa(float coordx, float coordY){
-        
+        return null;
     }
     
     public EstampaAplicada cambiarTamano(float tamano){
-        
+        return null;
     }
 }

@@ -22,7 +22,7 @@ public class Pedido {
     }
     
     public Pedido crearPago(){
-        
+        return null;
     }
     
     public void eliminarCarrito(){

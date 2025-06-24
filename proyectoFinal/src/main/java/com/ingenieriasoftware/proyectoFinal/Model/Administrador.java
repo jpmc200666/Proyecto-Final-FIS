@@ -18,11 +18,11 @@ public class Administrador {
     }
     
     public Cliente actualizarCliente(Cliente cliente){
-        
+        return null;
     } 
     
     public Artista actualizaArtista(Artista artista){
-        
+        return null;
     }
     
     public void actualizaStock(Prenda prenda, int cantidad){
