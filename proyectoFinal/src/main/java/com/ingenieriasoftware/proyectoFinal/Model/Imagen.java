@@ -1,20 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
-/**
- *
- * @author yanpi
- */
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="imagen")
 public class Imagen {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String url;
     private String descripcion;
-    
-    public Imagen(String url, String descripcion){
-        this.url = url;
-        this.descripcion = descripcion;
-    }
+
+    @ManyToOne(targetEntity = Estampa.class)
+    private Estampa estampa;
 }

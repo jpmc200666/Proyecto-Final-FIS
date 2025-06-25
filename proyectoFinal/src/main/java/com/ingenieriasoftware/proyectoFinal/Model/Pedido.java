@@ -1,31 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
-import java.util.Date;
-/**
- *
- * @author yanpi
- */
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="pedido")
 public class Pedido {
-    private int id;
-    private Date fecha;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDate fecha;
     private String estado;
-    private Pago pago;
+
+    @OneToOne(targetEntity = Carrito.class)
     private Carrito carrito;
-    
-    public Pedido(MetodosPago metodoPago, Carrito carrito){
-        this.pago = new Pago(metodoPago);
-        this.carrito = carrito;
-    }
-    
-    public Pedido crearPago(){
-        return null;
-    }
-    
-    public void eliminarCarrito(){
-        
-    }
+
+    @OneToOne(targetEntity = Pago.class)
+    private Pago pago;
+
+
+    @ManyToOne(targetEntity = Cliente.class)
+    private Cliente cliente;
+
+
+
+
 }

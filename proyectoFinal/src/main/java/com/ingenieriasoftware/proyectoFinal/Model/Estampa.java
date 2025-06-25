@@ -1,35 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-/**
- *
- * @author yanpi
- */
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="estampa")
 public class Estampa {
-    private int id;
-    private Artista objArtista;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nombre;
-    private String descripicion;
-    private List<Imagen> imagenes;
-    private double precioBase;
+    private String descripcion;
+
+    @Column(nullable = false)
+    private BigDecimal precioBase;
     private int rating;
     private String tema;
+
+    @Column(name = "fecha_publicacion", columnDefinition = "DATE")
     private Date fechaPublicacion;
+
+    @Column(columnDefinition = "BOOLEAN")
     private boolean estado;
-    
-    public Estampa(String url, String descripcion){
-        this.imagenes = new ArrayList<>();
-        Imagen nueva = new Imagen(url, descripcion);
-        this.imagenes.add(nueva);
-    }
-    
-    public void calificarEstampa(int calificacion){
-        
-    }
+
+    @OneToMany(targetEntity = Imagen.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "estampa")
+    private List<Imagen> imagenes;
+
+    @ManyToOne(targetEntity = Artista.class)
+    private Artista artista;
+
+    @ManyToOne(targetEntity = Catalogo.class)
+    private Catalogo catalogo;
 }

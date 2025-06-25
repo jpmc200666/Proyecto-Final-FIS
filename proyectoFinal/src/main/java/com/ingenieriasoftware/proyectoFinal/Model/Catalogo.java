@@ -1,30 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
 import java.util.List;
-import java.util.ArrayList;
-/**
- *
- * @author yanpi
- */
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="catologo")
 public class Catalogo {
-    private String filtros;
-    private boolean ordenamiento;
-    private List<Estampa> listaEstampas;
-    
-    public Catalogo(Estampa estampa){
-        this.listaEstampas = new ArrayList();
-        this.listaEstampas.add(estampa);
-    }
-    
-    public List<Estampa> buscarEstampa(){
-        return null;
-    }
-    
-    public Estampa actualizarEstampa(){
-        return null;
-    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nombre;
+
+    @Column(name = "fecha_creacion", columnDefinition = "DATE")
+    private LocalDate fechaCreacion;
+
+    @OneToMany(targetEntity = Estampa.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "catalogo")
+    private List<Estampa> estampas;
 }

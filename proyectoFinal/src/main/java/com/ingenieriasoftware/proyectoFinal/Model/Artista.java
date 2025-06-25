@@ -1,43 +1,53 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
 import java.util.List;
-import java.util.ArrayList;
-/**
- *
- * @author yanpi
- */
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="artista")
 public class Artista {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String nombre;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(name="fecha_registro", columnDefinition = "DATE", nullable = false)
+    private LocalDate fechaRegistro;
+
+    @OneToMany(targetEntity = Estampa.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "artista")
     private List<Estampa> estampasPublicadas;
-    private List<Catalogo> catalogos;
-    private double gananciasTotales;
-    
-    public Artista(Catalogo catalogo){
-        this.catalogos = new ArrayList<>();
-        this.catalogos.add(catalogo);
-    }
-    
-    public String subirEstampa(Catalogo catalogo, Estampa estampa){
-        return "";
-    }
-    
-    public boolean eliminarEstampa(int id){
-           return false;
-    }
-    
-    public List<Catalogo> listaCatalogos(){
-        return null;
-    }
-    
-    public double consultarGanancias(){
-        return 0.0;
-    }
-    
-    public double obtenerRatingPromedio(){
-        return 0.0;
-    }
+
+    @OneToOne(targetEntity = Catalogo.class, cascade = CascadeType.REMOVE)
+    @JoinColumn(name="id_catalogo")
+    private Catalogo catalogo;
+
+    @Column(name = "ganancias_totales")
+    private int gananciasTotales;
+
+    @OneToOne(targetEntity = Stock.class, cascade = CascadeType.REMOVE)
+    private Stock stock;
+
+    @ManyToOne(targetEntity = Administrador.class)
+    private Administrador administrador;
+
+
+
+
 }

@@ -1,29 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
-/**
- *
- * @author yanpi
- */
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="pago")
 public class Pago {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nombre;
+
+    @Column(nullable = false,unique = true)
     private int cedula;
-    private MetodosPago metodoPago;
+    private EnumType metodosPago;
+
+    @Column(name="id_transaccion", updatable=false, nullable=false)
     private String idTransaccion;
-    private int idPedido;
+
+    @OneToOne(targetEntity = Pedido.class)
+    private Pedido pedido;
+
+    @Column(name="fecha_transaccion", columnDefinition = "DATE", nullable = false)
     private Date fechaTransaccion;
     private String estado;
     private String plataforma;
-    
-    public Pago(MetodosPago metodoPago){
-        this.metodoPago = metodoPago;
-    }
-    
-    public boolean pagar(){
-        return false;
-    }
 }

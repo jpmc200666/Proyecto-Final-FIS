@@ -1,19 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
-/**
- *
- * @author yanpi
- */
-public class ItemCarrito implements Prenda{
-    private int itemId;
-    int cantidad;
-    Prenda prenda;
-    
-    public ItemCarrito(){
-        
-    }
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="item_carrito")
+public class ItemCarrito {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="item_id")
+    private Integer itemId;
+
+    private int cantidad;
+
+    @OneToMany(targetEntity = Prenda.class, cascade = CascadeType.ALL, mappedBy = "itemCarrito")
+    private List<Prenda> prenda;
+
+    @ManyToOne(targetEntity = Carrito.class)
+    private Carrito carrito;
+
 }

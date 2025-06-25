@@ -1,13 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
-/**
- *
- * @author yanpi
- */
-public interface Prenda {
-    
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="prenda")
+public class Prenda {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne(targetEntity = Stock.class)
+    private Stock stock;
+
+    @ManyToOne(targetEntity = ItemCarrito.class)
+    private ItemCarrito itemCarrito;
 }

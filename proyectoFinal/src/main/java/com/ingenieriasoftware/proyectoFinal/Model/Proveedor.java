@@ -1,28 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
-/**
- *
- * @author yanpi
- */
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="proveedor")
 public class Proveedor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nombre_proveedor", unique = true, nullable = false)
     private String nombreProveedor;
-    private int idProveedor;
+
+    @Column(name = "tiempo_entrega_estimado", nullable = false)
     private int tiempoEntregaEstimado;
+
+    @Column(name = "cantidad_disponible", nullable = false)
     private int cantidadDisponible;
-    
-    public Proveedor(){
-        
-    }
-    
-    public boolean consultaDisponibilidad(String material, int cantidad){
-        return false;
-    }
-    
-    public boolean solicitarPedidos(String material, int cantidad){
-        return false;
-    }
+
+    @ManyToOne(targetEntity = Stock.class)
+    private Stock stockArtista;
 }

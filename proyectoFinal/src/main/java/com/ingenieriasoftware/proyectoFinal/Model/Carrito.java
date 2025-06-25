@@ -1,34 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.ingenieriasoftware.proyectoFinal.Model;
+package com.ingenieriasoftware.proyectoFinal.persistence.entities;
 
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.ArrayList;
-/**
- *
- * @author yanpi
- */
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="carrito")
 public class Carrito {
-    private int id;
-    private List<ItemCarrito> elementosCarrito;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "fecha_creacion",columnDefinition = "DATE")
     private Date fechaCreacion;
     private int vigencia;
-    private double totalCarrito;
-    
-    public Carrito(){
-        this.elementosCarrito = new ArrayList<>();
-        ItemCarrito nuevo = new ItemCarrito();
-        this.elementosCarrito.add(nuevo);
-    }
-    
-    public void agregarItemCarrito(ItemCarrito item){
-        
-    }
-    
-    public void eliminarItemCarrito(int itemid){
-        
-    }
+    private BigDecimal totalCarrito;
+
+    @OneToMany(targetEntity = ItemCarrito.class, fetch = FetchType.LAZY, mappedBy = "carrito")
+    private List<ItemCarrito> elementosCarrito;
+
 }
