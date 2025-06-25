@@ -24,6 +24,6 @@ public class Pago {
     }
     
     public boolean pagar(){
-        
+        return false;
     }
 }

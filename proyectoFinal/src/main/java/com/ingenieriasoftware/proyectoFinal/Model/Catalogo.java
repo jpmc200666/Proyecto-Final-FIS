@@ -21,10 +21,10 @@ public class Catalogo {
     }
     
     public List<Estampa> buscarEstampa(){
-        
+        return null;
     }
     
     public Estampa actualizarEstampa(){
-        
+        return null;
     }
 }

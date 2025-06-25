@@ -19,10 +19,10 @@ public class Proveedor {
     }
     
     public boolean consultaDisponibilidad(String material, int cantidad){
-        
+        return false;
     }
     
     public boolean solicitarPedidos(String material, int cantidad){
-        
+        return false;
     }
 }

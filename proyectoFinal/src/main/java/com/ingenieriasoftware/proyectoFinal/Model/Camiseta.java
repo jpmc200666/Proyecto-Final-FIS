@@ -21,6 +21,6 @@ public class Camiseta implements Prenda{
     }
     
     public Camiseta aplicarEstampa(EstampaAplicada estampaAplicada){
-        
+        return null;
     }   
 }

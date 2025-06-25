@@ -20,10 +20,10 @@ public class Cliente extends UsuarioAbs{
     }
     
     public Pedido realizarPedido(Pago metodoPago, String direccion){
-        
+        return null;
     }
     
     public List<ItemCarrito> verItemCarrito(){
-        
+        return null;
     }
 }
