@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login v1</title>
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+<div class="login-container">
+    <div class="login-header">
+        <h1>Welcome Back</h1>
+        <p>Please sign in to your account</p>
+    </div>
+
+    <form id="loginForm" novalidate>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error-message" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div style="position: relative;">
+                <input type="password" id="password" name="password" required>
+                <button type="button" class="password-toggle" id="passwordToggle">👁️</button>
+            </div>
+            <div class="error-message" id="passwordError"></div>
+        </div>
+
+        <div class="forgot-password">
+            <a href="#" id="forgotPassword">Forgot your password?</a>
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">
+            <span class="spinner"></span>
+            <span class="btn-text">Sign In</span>
+        </button>
+    </form>
+
+    <div class="divider">
+        <span>or continue with</span>
+    </div>
+
+    <div class="social-login">
+        <button class="social-btn" id="googleLogin"></button>
+        <button class="social-btn" id="facebookLogin"></button>
+        <button class="social-btn" id="twitterLogin"></button>
+    </div>
+
+    <div class="signup-link">
+        Don't have an account? <a href="#" id="signupLink">Sign up here</a>
+    </div>
+</div>
+<script src="../scripts/login.js"></script>
+</body>
+</html>
