@@ -16,13 +16,13 @@ public class ItemCarrito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="item_id")
-    private Integer itemId;
+    @Column(name="id")
+    private Long id;
 
     private int cantidad;
 
-    @OneToMany(targetEntity = Prenda.class, cascade = CascadeType.ALL, mappedBy = "itemCarrito")
-    private List<Prenda> prenda;
+    @OneToMany(targetEntity = CamisetaEstampada.class, cascade = CascadeType.ALL, mappedBy = "itemCarrito")
+    private List<CamisetaEstampada> camisetaEstampadas;
 
     @ManyToOne(targetEntity = Carrito.class)
     private Carrito carrito;

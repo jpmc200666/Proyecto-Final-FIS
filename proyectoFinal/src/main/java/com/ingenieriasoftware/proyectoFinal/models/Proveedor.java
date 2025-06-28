@@ -20,11 +20,11 @@ public class Proveedor {
     private String nombreProveedor;
 
     @Column(name = "tiempo_entrega_estimado", nullable = false)
-    private int tiempoEntregaEstimado;
+    private Long tiempoEntregaEstimado;
 
     @Column(name = "cantidad_disponible", nullable = false)
     private int cantidadDisponible;
 
     @ManyToOne(targetEntity = Stock.class)
-    private Stock stockArtista;
+    private Stock stock;
 }

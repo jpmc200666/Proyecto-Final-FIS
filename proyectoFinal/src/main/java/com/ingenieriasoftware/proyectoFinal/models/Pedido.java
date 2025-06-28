@@ -27,11 +27,7 @@ public class Pedido {
     @OneToOne(targetEntity = Pago.class)
     private Pago pago;
 
-
     @ManyToOne(targetEntity = Cliente.class)
     private Cliente cliente;
-
-
-
 
 }

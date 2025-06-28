@@ -22,16 +22,19 @@ public class Stock {
     @Column(nullable = false)
     private int capacidad;
 
-    @OneToMany(targetEntity = Prenda.class, fetch = FetchType.LAZY, mappedBy = "stock")
-    private List<Prenda> prendas;
+    @OneToMany(targetEntity = Camiseta.class, fetch = FetchType.LAZY, mappedBy = "stock")
+    private List<Camiseta> camisetas;
 
     @Column(name = "fecha_ultima_actualizacion", columnDefinition = "DATE", nullable = false)
     private Date fechaUltimaActualizacion;
 
-    @OneToOne (targetEntity = Artista.class)
-    private Artista artista;
+    /**
+     * El artista no tiene pertenencia con stock
+     */
+//    @OneToOne (targetEntity = Artista.class)
+//    private Artista artista;
 
-    @OneToMany(targetEntity = Proveedor.class, fetch = FetchType.LAZY, mappedBy = "stockArtista")
+    @OneToMany(targetEntity = Proveedor.class, fetch = FetchType.LAZY, mappedBy = "stock")
     private List<Proveedor> proveedores;
 
 

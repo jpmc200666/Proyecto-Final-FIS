@@ -36,8 +36,11 @@ public class Estampa {
     @OneToMany(targetEntity = Imagen.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "estampa")
     private List<Imagen> imagenes;
 
-    @ManyToOne(targetEntity = Artista.class)
-    private Artista artista;
+    /**
+     * No tenemos relación directa con artista
+     */
+//    @ManyToOne(targetEntity = Artista.class)
+//    private Artista artista;
 
     @ManyToOne(targetEntity = Catalogo.class)
     private Catalogo catalogo;

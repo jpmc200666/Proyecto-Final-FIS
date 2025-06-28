@@ -20,10 +20,10 @@ public class Pago {
     private String nombre;
 
     @Column(nullable = false,unique = true)
-    private int cedula;
+    private Long cedula;
     private EnumType metodosPago;
 
-    @Column(name="id_transaccion", updatable=false, nullable=false)
+    @Column(name="id_transaccion")
     private String idTransaccion;
 
     @OneToOne(targetEntity = Pedido.class)
