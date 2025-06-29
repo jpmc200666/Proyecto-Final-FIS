@@ -26,19 +26,30 @@ export default function LoginPage() {
     setIsLoading(true)
     setError("")
 
-    // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
 
-      if (email === "demo@example.com" && password === "password") {
-        // Simulate successful login
-        alert("Login successful! Redirecting...")
-        // In a real app, you'd redirect to dashboard or previous page
-      } else {
-        setError("Invalid email or password. Try demo@example.com / password")
+      if (!response.ok) {
+        throw new Error("Invalid email or password.")
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.")
+
+      const data = await response.json()
+      // Guarda los valores importantes (puedes usar localStorage o sessionStorage)
+      localStorage.setItem("token", data.token)
+      localStorage.setItem("nombre", data.nombre)
+      localStorage.setItem("email", data.email)
+      localStorage.setItem("roles", JSON.stringify(data.roles))
+
+      // Redirige a la página principal
+      window.location.href = "/"
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
     }
