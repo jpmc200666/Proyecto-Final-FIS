@@ -83,12 +83,24 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const respones = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: formData.firstName + formData.lastName,
+          email: formData.email,
+          password: formData.password
+        }),
+      })
 
-      // Simulate successful registration
-      alert("Account created successfully! Please check your email to verify your account.")
-      // In a real app, you'd redirect to email verification or login page
+      if(!respones.ok){
+        const errorData = await respones.json()
+        throw new Error(errorData.message || "Registration failed")
+      }
+      // Redirige a la página login después del registro exitoso
+      window.location.href = "/auth/login"
     } catch (err) {
       setError("An error occurred. Please try again.")
     } finally {
