@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +23,8 @@ public class Stock {
     @Column(nullable = false)
     private int capacidad;
 
-    @OneToMany(targetEntity = Camiseta.class, fetch = FetchType.LAZY, mappedBy = "stock")
+    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Evitar ciclos si usas Jackson
     private List<Camiseta> camisetas;
 
     @Column(name = "fecha_ultima_actualizacion", columnDefinition = "DATE", nullable = false)

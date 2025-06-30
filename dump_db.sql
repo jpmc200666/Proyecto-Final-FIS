@@ -84,8 +84,7 @@ CREATE TABLE `camiseta` (
   `material` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK6g67fyutsxiqt1khr87dpu7wv` (`stock_id`),
-  CONSTRAINT `FK6g67fyutsxiqt1khr87dpu7wv` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`),
-  CONSTRAINT `camiseta_chk_1` CHECK ((`talla` between 0 and 1))
+  CONSTRAINT `FK6g67fyutsxiqt1khr87dpu7wv` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
