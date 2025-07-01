@@ -99,59 +99,7 @@ export default function LoginPage() {
     setError("")
 
     try {
-      // Simulate social login
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      // Mock successful social login
-      const mockToken = `mock_${provider.toLowerCase()}_token_` + Date.now()
-      const mockUser: User = {
-        id: "1",
-        firstName: "John",
-        lastName: "Doe",
-        email: "demo@example.com",
-        phone: "+1 (555) 123-4567",
-        avatar: "/placeholder.svg?height=100&width=100",
-        joinDate: "2023-01-15",
-        role: "usuario",
-        address: {
-          street: "123 Main St",
-          city: "Springfield",
-          state: "IL",
-          zipCode: "62704",
-          country: "USA",
-        },
-        stats: {
-          totalOrders: 5,
-          totalSpent: 299.99,
-          wishlistItems: 3,
-          loyaltyPoints: 120,
-        },
-        orders: [
-
-        ],
-        wishlist: [
-          {
-            id: 1,
-            name: "Cool T-Shirt",
-            price: 19.99,
-            image: "/tshirt1.png",
-            inStock: true,
-          },
-          {
-            id: 2,
-            name: "Trendy Hoodie",
-            price: 39.99,
-            image: "/hoodie1.png",
-            inStock: false,
-          },
-        ],
-      }
-
-      // Store auth data
-      setAuthToken(mockToken)
-      setUserData(mockUser)
-
-      // Redirect to profile
+      // Redirect to profile after a successful social login
       router.push("/profile")
     } catch (err) {
       setError(`${provider} login failed. Please try again.`)
@@ -268,14 +216,6 @@ export default function LoginPage() {
                   <Github className="h-4 w-4 mr-2" />
                   GitHub
                 </Button>
-              </div>
-
-              <div className="text-center text-sm text-gray-600">
-                <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                  <p className="font-medium text-blue-800 mb-1">Demo Credentials:</p>
-                  <p className="text-blue-700">Email: demo@example.com</p>
-                  <p className="text-blue-700">Password: password</p>
-                </div>
               </div>
             </CardContent>
 
