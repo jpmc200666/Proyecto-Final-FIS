@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: camisetas_db
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -54,6 +54,7 @@ CREATE TABLE `artista` (
   UNIQUE KEY `UKaebvn2t26hrjvyrl8gly4xf84` (`id_catalogo`),
   KEY `FK4gvwkstu5nibqa2i4yx8jabt8` (`administrador_id`),
   CONSTRAINT `FK4gvwkstu5nibqa2i4yx8jabt8` FOREIGN KEY (`administrador_id`) REFERENCES `administrador` (`id`),
+  CONSTRAINT `FK_artista_catalogo` FOREIGN KEY (`id_catalogo`) REFERENCES `catalogo` (`id`),
   CONSTRAINT `FKb2nfwf9oyd26vs1dl43j353f7` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`),
   CONSTRAINT `FKotgvasbmrvnlpko7922hflvge` FOREIGN KEY (`id_catalogo`) REFERENCES `catologo` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -78,14 +79,14 @@ DROP TABLE IF EXISTS `camiseta`;
 CREATE TABLE `camiseta` (
   `id` int NOT NULL AUTO_INCREMENT,
   `precio` double DEFAULT NULL,
-  `talla` tinyint DEFAULT NULL,
+  `talla` enum('L','M','S','XL','XS','XXL') DEFAULT NULL,
   `stock_id` bigint DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
   `material` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK6g67fyutsxiqt1khr87dpu7wv` (`stock_id`),
   CONSTRAINT `FK6g67fyutsxiqt1khr87dpu7wv` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +95,7 @@ CREATE TABLE `camiseta` (
 
 LOCK TABLES `camiseta` WRITE;
 /*!40000 ALTER TABLE `camiseta` DISABLE KEYS */;
+INSERT INTO `camiseta` VALUES (1,20000,'M',1,'Rojo','Algodon'),(2,23000,'XXL',1,'Beige','Algodon'),(3,15000,'S',1,'Blanca','Algodon');
 /*!40000 ALTER TABLE `camiseta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,6 +182,31 @@ LOCK TABLES `carrito` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `catalogo`
+--
+
+DROP TABLE IF EXISTS `catalogo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `catalogo` (
+  `fecha_creacion` date DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `catalogo`
+--
+
+LOCK TABLES `catalogo` WRITE;
+/*!40000 ALTER TABLE `catalogo` DISABLE KEYS */;
+INSERT INTO `catalogo` VALUES ('2025-06-30',1,'Primer catalogo');
+/*!40000 ALTER TABLE `catalogo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `catologo`
 --
 
@@ -187,8 +214,8 @@ DROP TABLE IF EXISTS `catologo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catologo` (
-  `fecha_creacion` date DEFAULT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `fecha_creacion` date DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -248,8 +275,8 @@ CREATE TABLE `estampa` (
   `tema` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK6yx66fhsxikw756bg4qf2ihi3` (`catalogo_id`),
-  CONSTRAINT `FK6yx66fhsxikw756bg4qf2ihi3` FOREIGN KEY (`catalogo_id`) REFERENCES `catologo` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_estampa_catalogo` FOREIGN KEY (`catalogo_id`) REFERENCES `catalogo` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,6 +285,7 @@ CREATE TABLE `estampa` (
 
 LOCK TABLES `estampa` WRITE;
 /*!40000 ALTER TABLE `estampa` DISABLE KEYS */;
+INSERT INTO `estampa` VALUES (1,4000.00,5,1,'2025-06-30',1,'Estampa calavera de 10 cm','Estampa calavera','Halloween'),(1,4000.00,5,1,'2025-06-30',2,'Estampa naruto de 30 cm','Estampa naruto','Anime'),(1,4000.00,5,1,'2025-06-30',3,'Estampa tulipan de 5 cm','Estampa tulipan','Primavera');
 /*!40000 ALTER TABLE `estampa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -450,7 +478,7 @@ CREATE TABLE `stock` (
   `fecha_ultima_actualizacion` date NOT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -459,6 +487,7 @@ CREATE TABLE `stock` (
 
 LOCK TABLES `stock` WRITE;
 /*!40000 ALTER TABLE `stock` DISABLE KEYS */;
+INSERT INTO `stock` VALUES (100,'2925-06-29',1);
 /*!40000 ALTER TABLE `stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,7 +507,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK5171l57faosmj8myawaucatdw` (`email`),
   UNIQUE KEY `UKcto7dkti4t38iq8r4cqesbd8k` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -487,6 +516,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -499,4 +529,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-27 23:06:41
+-- Dump completed on 2025-06-30 20:05:39

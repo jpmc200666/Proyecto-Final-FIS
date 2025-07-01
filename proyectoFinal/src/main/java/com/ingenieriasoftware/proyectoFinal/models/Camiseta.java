@@ -23,6 +23,8 @@ public class Camiseta {
 
     private Double precio;
 
+    private String urlImagen;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id")
     private Stock stock;
