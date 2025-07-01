@@ -17,12 +17,16 @@ public class Camiseta {
     private int id;
 
     private String color;
-    private EnumType talla;
+    @Enumerated(EnumType.STRING)
+    private Tallas talla;
     private String material;
 
     private Double precio;
 
-    @ManyToOne(targetEntity = Stock.class)
+    private String urlImagen;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id")
     private Stock stock;
 
 }
