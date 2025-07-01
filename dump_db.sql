@@ -83,6 +83,7 @@ CREATE TABLE `camiseta` (
   `stock_id` bigint DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
   `material` varchar(255) DEFAULT NULL,
+  `url_imagen` longtext,
   PRIMARY KEY (`id`),
   KEY `FK6g67fyutsxiqt1khr87dpu7wv` (`stock_id`),
   CONSTRAINT `FK6g67fyutsxiqt1khr87dpu7wv` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`)
@@ -95,7 +96,7 @@ CREATE TABLE `camiseta` (
 
 LOCK TABLES `camiseta` WRITE;
 /*!40000 ALTER TABLE `camiseta` DISABLE KEYS */;
-INSERT INTO `camiseta` VALUES (1,20000,'M',1,'Rojo','Algodon'),(2,23000,'XXL',1,'Beige','Algodon'),(3,15000,'S',1,'Blanca','Algodon');
+INSERT INTO `camiseta` VALUES (1,20000,'M',1,'Rojo','Algodon','https://png.pngtree.com/png-vector/20210630/ourmid/pngtree-t-shirt-red-adult-clothing-png-image_3544374.jpg'),(2,23000,'XXL',1,'Beige','Algodon','https://w7.pngwing.com/pngs/157/912/png-transparent-sleeve-t-shirt-shoulder-blouse-beige-t-shirt-tshirt-beige-blouse.png'),(3,15000,'S',1,'Blanca','Algodon','https://pngate.com/wp-content/uploads/2023/09/white-t-shirt-mockup.png');
 /*!40000 ALTER TABLE `camiseta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +305,7 @@ CREATE TABLE `imagen` (
   PRIMARY KEY (`id`),
   KEY `FKmrmfp6yfiwl6jnq5mcg77c6vf` (`estampa_id`),
   CONSTRAINT `FKmrmfp6yfiwl6jnq5mcg77c6vf` FOREIGN KEY (`estampa_id`) REFERENCES `estampa` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,6 +314,7 @@ CREATE TABLE `imagen` (
 
 LOCK TABLES `imagen` WRITE;
 /*!40000 ALTER TABLE `imagen` DISABLE KEYS */;
+INSERT INTO `imagen` VALUES (1,1,'Imagen calavera','https://w7.pngwing.com/pngs/821/792/png-transparent-skull-illustration-skull-sketch-skull-face-hand-monochrome-thumbnail.png'),(2,2,'Imagen naruto','https://e7.pngegg.com/pngimages/663/299/png-clipart-uzumaki-naruto-naruto-small-comics-and-fantasy-naruto.png'),(3,3,'Imagen tulipan','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSg0d9GiVE7wHlESQpXfz53PTbAG3gpsAcyQ&s');
 /*!40000 ALTER TABLE `imagen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -529,4 +531,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-30 20:05:39
+-- Dump completed on 2025-07-01 13:12:02

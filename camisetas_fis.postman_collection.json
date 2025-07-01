@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "a16bf668-be24-4e0a-b33c-91a5cd102008",
+		"_postman_id": "3337d3d9-31ef-4364-87b2-13ab73f6a612",
 		"name": "camisetas_fis",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38247252"
+		"_exporter_id": "46200623",
+		"_collection_link": "https://jpmc-2228543.postman.co/workspace/Jpmc's-Workspace~3f80b77c-5092-4a71-80e1-f1a224c25632/collection/46200623-3337d3d9-31ef-4364-87b2-13ab73f6a612?action=share&source=collection_link&creator=46200623"
 	},
 	"item": [
 		{
@@ -63,7 +64,7 @@
 			"response": []
 		},
 		{
-			"name": "hola mundo",
+			"name": "ListadoCamisetas",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -73,7 +74,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTE2NTYwNywiZXhwIjoxNzUxMTY5MjA3fQ.PR1IRxVAvfSlvKZuv4Ux1OupoAWBG44s47GdzRv3eAE",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTMwOTcyMSwiZXhwIjoxNzUxMzEzMzIxfQ.TxJ7X6o_TCM2qE7eunMquYphQHvgUvpDrZags8ZY3Ms",
 							"type": "string"
 						}
 					]
@@ -90,16 +91,25 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/UsuarioController/hola",
+					"raw": "http://localhost:8080/CamisetaController/listadoCamisetas",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"UsuarioController",
-						"hola"
+						"CamisetaController",
+						"listadoCamisetas"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListadoEstampas",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
