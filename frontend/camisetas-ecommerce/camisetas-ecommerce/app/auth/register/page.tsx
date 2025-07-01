@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
 import { Eye, EyeOff, Mail, Lock, User, Shirt, Github, Chrome, AlertCircle, Check } from "lucide-react"
+import {useRouter} from "next/navigation";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ export default function RegisterPage() {
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const router = useRouter()
 
   const updateFormData = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -100,7 +102,7 @@ export default function RegisterPage() {
         throw new Error(errorData.message || "Registration failed")
       }
       // Redirige a la página login después del registro exitoso
-      window.location.href = "/auth/login"
+      router.push("/auth/login")
     } catch (err) {
       setError("An error occurred. Please try again.")
     } finally {
