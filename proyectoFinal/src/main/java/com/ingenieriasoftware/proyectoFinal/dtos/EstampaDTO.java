@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.dtos;
 
+
 import com.ingenieriasoftware.proyectoFinal.models.Catalogo;
 import com.ingenieriasoftware.proyectoFinal.models.Imagen;
 import jakarta.persistence.*;
