@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class Imagen {
     private String descripcion;
 
     @ManyToOne(targetEntity = Estampa.class)
+    @JsonIgnore // Ignorar la serialización de esta relación para evitar ciclos
     private Estampa estampa;
 }

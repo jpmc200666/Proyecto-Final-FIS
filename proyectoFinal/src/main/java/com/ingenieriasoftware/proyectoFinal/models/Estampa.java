@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,6 +43,8 @@ public class Estampa {
 //    @ManyToOne(targetEntity = Artista.class)
 //    private Artista artista;
 
-    @ManyToOne(targetEntity = Catalogo.class)
+    @ManyToOne(targetEntity = Catalogo.class, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Catalogo catalogo;
+
 }

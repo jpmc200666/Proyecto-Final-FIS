@@ -1,11 +1,16 @@
 package com.ingenieriasoftware.proyectoFinal.dtos;
 
-import com.ingenieriasoftware.proyectoFinal.models.Stock;
-import com.ingenieriasoftware.proyectoFinal.models.Tallas;
+import com.ingenieriasoftware.proyectoFinal.models.Catalogo;
+import com.ingenieriasoftware.proyectoFinal.models.Imagen;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * DTO (Data Transfer Object) para representar los datos de una camiseta.
@@ -15,19 +20,26 @@ import lombok.NoArgsConstructor;
 @Builder // Permite construir instancias de la clase utilizando el patrón Builder.
 @AllArgsConstructor // Genera un constructor con todos los atributos como parámetros.
 @NoArgsConstructor // Genera un constructor sin parámetros.
-public class CamisetaDTO {
+public class EstampaDTO {
 
-    private int id;
+    private Long id;
 
-    private String color;
+    private String nombre;
 
-    private Tallas talla;
+    private String descripcion;
 
-    private String material;
+    private BigDecimal precioBase;
 
-    private Double precio;
+    private int rating;
 
-    private String urlImagen;
+    private String tema;
 
-    private Stock stock;
+    private Date fechaPublicacion;
+
+    private boolean estado;
+
+    private List<Imagen> imagenes;
+
+    private Catalogo catalogo;
+
 }
