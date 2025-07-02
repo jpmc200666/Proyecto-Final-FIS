@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +37,7 @@ public class CamisetaEstampada {
     @ManyToOne(targetEntity = Camiseta.class)
     private Camiseta camiseta;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = ItemCarrito.class)
     private ItemCarrito itemCarrito;
 

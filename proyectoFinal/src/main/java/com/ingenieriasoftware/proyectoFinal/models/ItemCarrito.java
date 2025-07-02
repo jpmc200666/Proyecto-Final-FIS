@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class ItemCarrito {
     @OneToMany(targetEntity = CamisetaEstampada.class, cascade = CascadeType.ALL, mappedBy = "itemCarrito")
     private List<CamisetaEstampada> camisetaEstampadas;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Carrito.class)
     private Carrito carrito;
 

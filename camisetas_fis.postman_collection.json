@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3337d3d9-31ef-4364-87b2-13ab73f6a612",
+		"_postman_id": "1390c20f-10fc-4969-b203-e8258d204f9f",
 		"name": "camisetas_fis",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "46200623",
-		"_collection_link": "https://jpmc-2228543.postman.co/workspace/Jpmc's-Workspace~3f80b77c-5092-4a71-80e1-f1a224c25632/collection/46200623-3337d3d9-31ef-4364-87b2-13ab73f6a612?action=share&source=collection_link&creator=46200623"
+		"_exporter_id": "38247252"
 	},
 	"item": [
 		{
@@ -109,15 +108,74 @@
 			"name": "ListadoEstampas",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "CreacionCamisetaEstampada",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTQyNTUxNywiZXhwIjoxNzUxNDI5MTE3fQ.jgTne7_7g9e8SOlkdXiJroUHkc8h5PxXYYDVNYCOHr4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/CamisetaEstampadaController/creacion",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"CamisetaEstampadaController",
+						"creacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pedido activo by user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTQzMDU2MSwiZXhwIjoxNzUxNDM0MTYxfQ.IF_dBf__0GjWM8Tc1YZhnuujCnheB3E2ojkHVwxZots",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/carrito/active-by-cliente?idCliente=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"carrito",
+						"active-by-cliente"
+					],
+					"query": [
+						{
+							"key": "idCliente",
+							"value": "2"
+						}
+					]
+				}
 			},
 			"response": []
 		}
