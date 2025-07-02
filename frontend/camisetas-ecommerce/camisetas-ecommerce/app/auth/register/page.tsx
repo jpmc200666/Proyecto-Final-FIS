@@ -125,15 +125,15 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2">
             <Shirt className="h-8 w-8 text-purple-600" />
-            <span className="text-2xl font-bold text-gray-900">TeeShop</span>
+            <span className="text-2xl font-bold text-gray-900">Estampate!</span>
           </Link>
         </div>
 
         <Card className="shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Create your account</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Crea tu cuenta</CardTitle>
             <CardDescription className="text-center">
-              Join TeeShop and start designing your custom t-shirts
+              Únete a Estampate! y comienza a diseñar tus camisetas personalizadas
             </CardDescription>
           </CardHeader>
 
@@ -148,12 +148,12 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First name</Label>
+                  <Label htmlFor="firstName">Nombre</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <Input
                       id="firstName"
-                      placeholder="John"
+                      placeholder="Juan"
                       value={formData.firstName}
                       onChange={(e) => updateFormData("firstName", e.target.value)}
                       className="pl-10"
@@ -162,10 +162,10 @@ export default function RegisterPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last name</Label>
+                  <Label htmlFor="lastName">Apellido</Label>
                   <Input
                     id="lastName"
-                    placeholder="Doe"
+                    placeholder="Pérez"
                     value={formData.lastName}
                     onChange={(e) => updateFormData("lastName", e.target.value)}
                     required
@@ -174,13 +174,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Correo electrónico</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder="juan@ejemplo.com"
                     value={formData.email}
                     onChange={(e) => updateFormData("email", e.target.value)}
                     className="pl-10"
@@ -190,13 +190,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Contraseña</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Create a strong password"
+                    placeholder="Crea una contraseña segura"
                     value={formData.password}
                     onChange={(e) => updateFormData("password", e.target.value)}
                     className="pl-10 pr-10"
@@ -213,7 +213,7 @@ export default function RegisterPage() {
                 {formData.password && (
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span>Password strength</span>
+                      <span>Fortaleza de la contraseña</span>
                       <span
                         className={
                           passwordStrength >= 75
@@ -223,7 +223,15 @@ export default function RegisterPage() {
                               : "text-red-600"
                         }
                       >
-                        {getStrengthLabel(passwordStrength)}
+                        {getStrengthLabel(passwordStrength) === "Weak"
+                          ? "Débil"
+                          : getStrengthLabel(passwordStrength) === "Fair"
+                          ? "Aceptable"
+                          : getStrengthLabel(passwordStrength) === "Good"
+                          ? "Buena"
+                          : getStrengthLabel(passwordStrength) === "Strong"
+                          ? "Fuerte"
+                          : ""}
                       </span>
                     </div>
                     <Progress value={passwordStrength} className="h-2" />
@@ -232,13 +240,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm password</Label>
+                <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
+                    placeholder="Confirma tu contraseña"
                     value={formData.confirmPassword}
                     onChange={(e) => updateFormData("confirmPassword", e.target.value)}
                     className="pl-10 pr-10"
@@ -271,13 +279,13 @@ export default function RegisterPage() {
                     onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
                   />
                   <Label htmlFor="terms" className="text-sm">
-                    I agree to the{" "}
+                    Acepto {" "}
                     <Link href="/terms" className="text-purple-600 hover:underline">
-                      Terms of Service
+                      Términos de servicio
                     </Link>{" "}
-                    and{" "}
+                    y la{" "}
                     <Link href="/privacy" className="text-purple-600 hover:underline">
-                      Privacy Policy
+                      Política de privacidad
                     </Link>
                   </Label>
                 </div>
@@ -289,13 +297,13 @@ export default function RegisterPage() {
                     onCheckedChange={(checked) => setSubscribeNewsletter(checked as boolean)}
                   />
                   <Label htmlFor="newsletter" className="text-sm">
-                    Subscribe to our newsletter for updates and exclusive offers
+                    Suscribirme al boletín para recibir novedades y ofertas exclusivas
                   </Label>
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create account"}
+                {isLoading ? "Creando cuenta..." : "Crear cuenta"}
               </Button>
             </form>
 
@@ -304,7 +312,7 @@ export default function RegisterPage() {
                 <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Or sign up with</span>
+                <span className="bg-white px-2 text-gray-500">O regístrate con</span>
               </div>
             </div>
 
@@ -322,9 +330,9 @@ export default function RegisterPage() {
 
           <CardFooter>
             <div className="text-center text-sm text-gray-600 w-full">
-              Already have an account?{" "}
+              ¿Ya tienes una cuenta?{" "}
               <Link href="/auth/login" className="text-purple-600 hover:underline font-medium">
-                Sign in
+                Inicia sesión
               </Link>
             </div>
           </CardFooter>

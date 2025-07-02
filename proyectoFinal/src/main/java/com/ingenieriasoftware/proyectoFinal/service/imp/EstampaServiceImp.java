@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class EstampaServiceImp implements IEstampaService {
 
     @Autowired
-    private EstampaRepository estampaDAO;
+    private EstampaRepository estampaRepository;
 
     @PersistenceContext
     private EntityManager entityManager;

@@ -7,14 +7,12 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Search, ShoppingCart, User, Heart, Menu, Shirt, Palette } from "lucide-react"
+import { Search, ShoppingCart, User, Heart, Menu, Shirt } from "lucide-react"
 import { isAuthenticated } from "@/lib/auth"
 
 export default function Navigation() {
@@ -32,7 +30,7 @@ export default function Navigation() {
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
               <Shirt className="h-8 w-8 text-purple-600" />
-              <span className="text-2xl font-bold text-gray-900">TeeShop</span>
+              <span className="text-2xl font-bold text-gray-900">Estampate!</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -41,62 +39,15 @@ export default function Navigation() {
                 <NavigationMenuItem>
                   <Link href="/products" legacyBehavior passHref>
                     <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      All Products
+                      Productos
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-6 w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                      <div className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <Link
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-purple-500 to-blue-600 p-6 no-underline outline-none focus:shadow-md"
-                              href="/custom-design"
-                          >
-                            <Palette className="h-6 w-6 text-white" />
-                            <div className="mb-2 mt-4 text-lg font-medium text-white">Custom Design</div>
-                            <p className="text-sm leading-tight text-white/90">
-                              Create your own unique t-shirt design with our easy-to-use tools.
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </div>
-                      <div className="grid gap-1">
-                        <Link
-                            href="/products?category=vintage"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">Vintage</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                            Classic and retro-inspired designs
-                          </p>
-                        </Link>
-                        <Link
-                            href="/products?category=minimalist"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">Minimalist</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-gray-600">Clean and simple designs</p>
-                        </Link>
-                        <Link
-                            href="/products?category=artistic"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100"
-                        >
-                          <div className="text-sm font-medium leading-none">Artistic</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-gray-600">Creative and abstract artwork</p>
-                        </Link>
-                      </div>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
                   <Link href="/custom-design" legacyBehavior passHref>
                     <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                      Design Tool
+                        Herramienta de Diseño
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -157,20 +108,6 @@ export default function Navigation() {
                     <Link href="/custom-design" className="text-lg font-medium">
                       Design Tool
                     </Link>
-                    <div className="border-t pt-4">
-                      <h3 className="font-medium mb-2">Categories</h3>
-                      <div className="space-y-2 ml-4">
-                        <Link href="/products?category=vintage" className="block text-gray-600">
-                          Vintage
-                        </Link>
-                        <Link href="/products?category=minimalist" className="block text-gray-600">
-                          Minimalist
-                        </Link>
-                        <Link href="/products?category=artistic" className="block text-gray-600">
-                          Artistic
-                        </Link>
-                      </div>
-                    </div>
                     <div className="border-t pt-4">
                       <h3 className="font-medium mb-2">Account</h3>
                       <div className="space-y-2 ml-4">
