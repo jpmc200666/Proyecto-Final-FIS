@@ -8,8 +8,8 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "TeeShop - Custom T-Shirts & Apparel",
-  description: "Create custom t-shirts with our easy design tool or shop our curated collection of unique designs.",
+  title: "Estampate! - Camisetas Personalizadas",
+  description: "Crea camisetas personalizadas con nuestra sencilla herramienta de diseño o descubre nuestra cuidada colección de diseños únicos.",
 }
 
 export default function RootLayout({
