@@ -39,8 +39,4 @@ public class Stock {
     @OneToMany(targetEntity = Proveedor.class, fetch = FetchType.LAZY, mappedBy = "stock")
     private List<Proveedor> proveedores;
 
-
-
-
-
 }
