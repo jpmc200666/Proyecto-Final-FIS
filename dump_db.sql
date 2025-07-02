@@ -171,7 +171,7 @@ CREATE TABLE `carrito` (
   `fecha_creacion` date DEFAULT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +180,7 @@ CREATE TABLE `carrito` (
 
 LOCK TABLES `carrito` WRITE;
 /*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
-INSERT INTO `carrito` VALUES (1000.00,600000,NULL,1);
+INSERT INTO `carrito` VALUES (1000.00,600000,NULL,1),(0.00,300,'2025-07-02',2);
 /*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,7 +231,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (NULL,2);
+INSERT INTO `cliente` VALUES (NULL,2),(NULL,3);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +377,7 @@ CREATE TABLE `pedido` (
   CONSTRAINT `FK30s8j2ktpay6of18lbyqn3632` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   CONSTRAINT `FK78e8injhefpm6130ipsi1bj2n` FOREIGN KEY (`carrito_id`) REFERENCES `carrito` (`id`),
   CONSTRAINT `FKkcpitr7lxw3ky3oaqmlqit7d1` FOREIGN KEY (`pago_id`) REFERENCES `pago` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +386,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
-INSERT INTO `pedido` VALUES (NULL,1,2,1,NULL,'AC');
+INSERT INTO `pedido` VALUES (NULL,1,2,1,NULL,'AC'),('2025-07-02',2,3,3,NULL,'AC');
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -488,7 +488,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK5171l57faosmj8myawaucatdw` (`email`),
   UNIQUE KEY `UKcto7dkti4t38iq8r4cqesbd8k` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -497,7 +497,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy'),(NULL,2,'jona@gmail.com','jona','$2a$10$npMpl4HkyS9wy1q2MJDkRuCQ.kBDXBiZXcqMBsJaDuGekJJ5OknWG');
+INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy'),(NULL,2,'jona@gmail.com','jona','$2a$10$npMpl4HkyS9wy1q2MJDkRuCQ.kBDXBiZXcqMBsJaDuGekJJ5OknWG'),(NULL,3,'javier@gmail.com','javier','$2a$10$lhy0rcQR5SieqMRKCjsIa./8GruJoI.ArHNlF2wil.B0p1Jr.RG7u');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -510,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-01 23:34:25
+-- Dump completed on 2025-07-02  6:33:51
