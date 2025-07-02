@@ -178,6 +178,14 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "CreacionCamisetaEstampada",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
