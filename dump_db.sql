@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: camisetas_db
 -- ------------------------------------------------------
--- Server version	8.0.42
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -54,7 +54,6 @@ CREATE TABLE `artista` (
   UNIQUE KEY `UKaebvn2t26hrjvyrl8gly4xf84` (`id_catalogo`),
   KEY `FK4gvwkstu5nibqa2i4yx8jabt8` (`administrador_id`),
   CONSTRAINT `FK4gvwkstu5nibqa2i4yx8jabt8` FOREIGN KEY (`administrador_id`) REFERENCES `administrador` (`id`),
-  CONSTRAINT `FK_artista_catalogo` FOREIGN KEY (`id_catalogo`) REFERENCES `catalogo` (`id`),
   CONSTRAINT `FKb2nfwf9oyd26vs1dl43j353f7` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`),
   CONSTRAINT `FKotgvasbmrvnlpko7922hflvge` FOREIGN KEY (`id_catalogo`) REFERENCES `catologo` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -83,10 +82,11 @@ CREATE TABLE `camiseta` (
   `stock_id` bigint DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
   `material` varchar(255) DEFAULT NULL,
-  `url_imagen` longtext,
+  `url_imagen` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK6g67fyutsxiqt1khr87dpu7wv` (`stock_id`),
-  CONSTRAINT `FK6g67fyutsxiqt1khr87dpu7wv` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`)
+  CONSTRAINT `FK6g67fyutsxiqt1khr87dpu7wv` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`),
+  CONSTRAINT `camiseta_chk_1` CHECK ((`talla` between 0 and 1))
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,7 +96,7 @@ CREATE TABLE `camiseta` (
 
 LOCK TABLES `camiseta` WRITE;
 /*!40000 ALTER TABLE `camiseta` DISABLE KEYS */;
-INSERT INTO `camiseta` VALUES (1,20000,'M',1,'Rojo','Algodon','https://png.pngtree.com/png-vector/20210630/ourmid/pngtree-t-shirt-red-adult-clothing-png-image_3544374.jpg'),(2,23000,'XXL',1,'Beige','Algodon','https://w7.pngwing.com/pngs/157/912/png-transparent-sleeve-t-shirt-shoulder-blouse-beige-t-shirt-tshirt-beige-blouse.png'),(3,15000,'S',1,'Blanca','Algodon','https://pngate.com/wp-content/uploads/2023/09/white-t-shirt-mockup.png');
+INSERT INTO `camiseta` VALUES (1,20000,'L',1,'Rojo','Algodon','https://png.pngtree.com/png-vector/20210630/ourmid/pngtree-t-shirt-red-adult-clothing-png-image_3544374.jpg'),(2,23000,'L',1,'Beige','Algodon','https://w7.pngwing.com/pngs/157/912/png-transparent-sleeve-t-shirt-shoulder-blouse-beige-t-shirt-tshirt-beige-blouse.png'),(3,15000,'L',1,'Blanca','Algodon','https://pngate.com/wp-content/uploads/2023/09/white-t-shirt-mockup.png');
 /*!40000 ALTER TABLE `camiseta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +116,7 @@ CREATE TABLE `camiseta_estampada` (
   KEY `FKano9dr5sye9t6kkxksw3mmuj7` (`item_carrito_id`),
   CONSTRAINT `FKano9dr5sye9t6kkxksw3mmuj7` FOREIGN KEY (`item_carrito_id`) REFERENCES `item_carrito` (`id`),
   CONSTRAINT `FKsykootfncpols90ifdjnqg3el` FOREIGN KEY (`camiseta_id`) REFERENCES `camiseta` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,6 +125,7 @@ CREATE TABLE `camiseta_estampada` (
 
 LOCK TABLES `camiseta_estampada` WRITE;
 /*!40000 ALTER TABLE `camiseta_estampada` DISABLE KEYS */;
+INSERT INTO `camiseta_estampada` VALUES (NULL,1,NULL),(NULL,2,NULL),(NULL,3,NULL),(NULL,4,NULL),(NULL,5,NULL),(NULL,6,NULL),(1,7,1);
 /*!40000 ALTER TABLE `camiseta_estampada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +171,7 @@ CREATE TABLE `carrito` (
   `fecha_creacion` date DEFAULT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,32 +180,8 @@ CREATE TABLE `carrito` (
 
 LOCK TABLES `carrito` WRITE;
 /*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
+INSERT INTO `carrito` VALUES (1000.00,600000,NULL,1);
 /*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `catalogo`
---
-
-DROP TABLE IF EXISTS `catalogo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `catalogo` (
-  `fecha_creacion` date DEFAULT NULL,
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `catalogo`
---
-
-LOCK TABLES `catalogo` WRITE;
-/*!40000 ALTER TABLE `catalogo` DISABLE KEYS */;
-INSERT INTO `catalogo` VALUES ('2025-06-30',1,'Primer catalogo');
-/*!40000 ALTER TABLE `catalogo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -215,8 +192,8 @@ DROP TABLE IF EXISTS `catologo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catologo` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
   `fecha_creacion` date DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -254,6 +231,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (NULL,2);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,7 +254,7 @@ CREATE TABLE `estampa` (
   `tema` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK6yx66fhsxikw756bg4qf2ihi3` (`catalogo_id`),
-  CONSTRAINT `FK_estampa_catalogo` FOREIGN KEY (`catalogo_id`) REFERENCES `catalogo` (`id`)
+  CONSTRAINT `FK6yx66fhsxikw756bg4qf2ihi3` FOREIGN KEY (`catalogo_id`) REFERENCES `catologo` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -305,7 +283,7 @@ CREATE TABLE `imagen` (
   PRIMARY KEY (`id`),
   KEY `FKmrmfp6yfiwl6jnq5mcg77c6vf` (`estampa_id`),
   CONSTRAINT `FKmrmfp6yfiwl6jnq5mcg77c6vf` FOREIGN KEY (`estampa_id`) REFERENCES `estampa` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +292,6 @@ CREATE TABLE `imagen` (
 
 LOCK TABLES `imagen` WRITE;
 /*!40000 ALTER TABLE `imagen` DISABLE KEYS */;
-INSERT INTO `imagen` VALUES (1,1,'Imagen calavera','https://w7.pngwing.com/pngs/821/792/png-transparent-skull-illustration-skull-sketch-skull-face-hand-monochrome-thumbnail.png'),(2,2,'Imagen naruto','https://e7.pngegg.com/pngimages/663/299/png-clipart-uzumaki-naruto-naruto-small-comics-and-fantasy-naruto.png'),(3,3,'Imagen tulipan','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSg0d9GiVE7wHlESQpXfz53PTbAG3gpsAcyQ&s');
 /*!40000 ALTER TABLE `imagen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,7 +309,7 @@ CREATE TABLE `item_carrito` (
   PRIMARY KEY (`id`),
   KEY `FK7jlhnuuh4m7q1cn77xhtx9kdq` (`carrito_id`),
   CONSTRAINT `FK7jlhnuuh4m7q1cn77xhtx9kdq` FOREIGN KEY (`carrito_id`) REFERENCES `carrito` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -341,6 +318,7 @@ CREATE TABLE `item_carrito` (
 
 LOCK TABLES `item_carrito` WRITE;
 /*!40000 ALTER TABLE `item_carrito` DISABLE KEYS */;
+INSERT INTO `item_carrito` VALUES (1,1,1);
 /*!40000 ALTER TABLE `item_carrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,7 +377,7 @@ CREATE TABLE `pedido` (
   CONSTRAINT `FK30s8j2ktpay6of18lbyqn3632` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   CONSTRAINT `FK78e8injhefpm6130ipsi1bj2n` FOREIGN KEY (`carrito_id`) REFERENCES `carrito` (`id`),
   CONSTRAINT `FKkcpitr7lxw3ky3oaqmlqit7d1` FOREIGN KEY (`pago_id`) REFERENCES `pago` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -408,6 +386,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
+INSERT INTO `pedido` VALUES (NULL,1,2,1,NULL,'AC');
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -509,7 +488,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK5171l57faosmj8myawaucatdw` (`email`),
   UNIQUE KEY `UKcto7dkti4t38iq8r4cqesbd8k` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -518,7 +497,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy');
+INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy'),(NULL,2,'jona@gmail.com','jona','$2a$10$npMpl4HkyS9wy1q2MJDkRuCQ.kBDXBiZXcqMBsJaDuGekJJ5OknWG');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -531,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-01 13:12:02
+-- Dump completed on 2025-07-01 23:34:25
