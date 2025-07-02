@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
       // Simulate successful password reset request
       setIsSubmitted(true)
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError("Ocurrió un error. Por favor, inténtalo de nuevo.")
     } finally {
       setIsLoading(false)
     }
@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center space-x-2">
               <Shirt className="h-8 w-8 text-purple-600" />
-              <span className="text-2xl font-bold text-gray-900">TeeShop</span>
+              <span className="text-2xl font-bold text-gray-900">Estampate!</span>
             </Link>
           </div>
 
@@ -51,15 +51,15 @@ export default function ForgotPasswordPage() {
               <div className="mx-auto mb-4 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <CheckCircle className="h-6 w-6 text-green-600" />
               </div>
-              <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
-              <CardDescription>We've sent a password reset link to {email}</CardDescription>
+              <CardTitle className="text-2xl font-bold">Revisa tu correo electrónico</CardTitle>
+              <CardDescription>Hemos enviado un enlace para restablecer la contraseña a {email}</CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-4">
               <div className="text-center text-sm text-gray-600">
-                <p>Didn't receive the email? Check your spam folder or</p>
+                <p>¿No recibiste el correo? Revisa tu carpeta de spam o</p>
                 <Button variant="link" className="p-0 h-auto text-purple-600" onClick={() => setIsSubmitted(false)}>
-                  try another email address
+                  prueba con otra dirección de correo
                 </Button>
               </div>
             </CardContent>
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
               <Link href="/auth/login" className="w-full">
                 <Button variant="outline" className="w-full bg-transparent">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to sign in
+                  Volver a iniciar sesión
                 </Button>
               </Link>
             </CardFooter>
@@ -84,15 +84,15 @@ export default function ForgotPasswordPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2">
             <Shirt className="h-8 w-8 text-purple-600" />
-            <span className="text-2xl font-bold text-gray-900">TeeShop</span>
+            <span className="text-2xl font-bold text-gray-900">Estampate!</span>
           </Link>
         </div>
 
         <Card className="shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Forgot your password?</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">¿Olvidaste tu contraseña?</CardTitle>
             <CardDescription className="text-center">
-              Enter your email address and we'll send you a link to reset your password
+              Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña
             </CardDescription>
           </CardHeader>
 
@@ -106,13 +106,13 @@ export default function ForgotPasswordPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email address</Label>
+                <Label htmlFor="email">Correo electrónico</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="Introduce tu correo electrónico"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
@@ -122,7 +122,7 @@ export default function ForgotPasswordPage() {
               </div>
 
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Sending reset link..." : "Send reset link"}
+                {isLoading ? "Enviando enlace..." : "Enviar enlace de restablecimiento"}
               </Button>
             </form>
           </CardContent>
@@ -131,7 +131,7 @@ export default function ForgotPasswordPage() {
             <Link href="/auth/login" className="w-full">
               <Button variant="outline" className="w-full bg-transparent">
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to sign in
+                Volver a iniciar sesión
               </Button>
             </Link>
           </CardFooter>

@@ -13,7 +13,7 @@ export default function Footer() {
               <span className="text-2xl font-bold">TeeShop</span>
             </Link>
             <p className="text-gray-400">
-              Creating custom t-shirts with premium quality and unique designs since 2020.
+              Creando las camisetas que sueñas con calidad Premium y diseños unicos desde 2019.
             </p>
             <div className="flex space-x-4">
               <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer" />
@@ -29,27 +29,12 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link href="/products" className="hover:text-white">
-                  All Products
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=vintage" className="hover:text-white">
-                  Vintage
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=minimalist" className="hover:text-white">
-                  Minimalist
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=artistic" className="hover:text-white">
-                  Artistic
+                  Productos
                 </Link>
               </li>
               <li>
                 <Link href="/custom-design" className="hover:text-white">
-                  Custom Design
+                  Herramienta de Diseño
                 </Link>
               </li>
             </ul>
@@ -57,31 +42,31 @@ export default function Footer() {
 
           {/* Support */}
           <div>
-            <h3 className="font-semibold mb-4">Support</h3>
+            <h3 className="font-semibold mb-4">Soporte</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link href="/help" className="hover:text-white">
-                  Help Center
+                  Atencion al Cliente
                 </Link>
               </li>
               <li>
                 <Link href="/shipping" className="hover:text-white">
-                  Shipping Info
+                  Informacion de Envio
                 </Link>
               </li>
               <li>
                 <Link href="/returns" className="hover:text-white">
-                  Returns
+                  Devoluciones
                 </Link>
               </li>
               <li>
                 <Link href="/size-guide" className="hover:text-white">
-                  Size Guide
+                  Guia de Tallas
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-white">
-                  Contact Us
+                  Contactanos!
                 </Link>
               </li>
             </ul>
@@ -93,27 +78,22 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link href="/about" className="hover:text-white">
-                  About Us
+                  Acerca de Nosotros
                 </Link>
               </li>
               <li>
                 <Link href="/careers" className="hover:text-white">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/sustainability" className="hover:text-white">
-                  Sustainability
+                  Trabaja con Nosotros
                 </Link>
               </li>
               <li>
                 <Link href="/privacy" className="hover:text-white">
-                  Privacy Policy
+                  Como cuidamos de tu privacidad
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="hover:text-white">
-                  Terms of Service
+                  Terminos y Condiciones
                 </Link>
               </li>
             </ul>
@@ -121,13 +101,13 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">© 2024 TeeShop. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">CopyRight © 2019-2024 Estampate!.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <span className="text-gray-400 text-sm">We accept:</span>
+            <span className="text-gray-400 text-sm">Aceptamos:</span>
             <div className="flex space-x-2">
               <div className="w-8 h-5 bg-gray-700 rounded text-xs flex items-center justify-center">VISA</div>
               <div className="w-8 h-5 bg-gray-700 rounded text-xs flex items-center justify-center">MC</div>
-              <div className="w-8 h-5 bg-gray-700 rounded text-xs flex items-center justify-center">AMEX</div>
+              <div className="w-8 h-5 bg-gray-700 rounded text-xs flex items-center justify-center">Nequi</div>
             </div>
           </div>
         </div>
