@@ -110,12 +110,9 @@ DROP TABLE IF EXISTS `camiseta_estampada`;
 CREATE TABLE `camiseta_estampada` (
   `camiseta_id` int DEFAULT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `item_carrito_id` bigint DEFAULT NULL,
   `precio_camiseta` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKsykootfncpols90ifdjnqg3el` (`camiseta_id`),
-  KEY `FKano9dr5sye9t6kkxksw3mmuj7` (`item_carrito_id`),
-  CONSTRAINT `FKano9dr5sye9t6kkxksw3mmuj7` FOREIGN KEY (`item_carrito_id`) REFERENCES `item_carrito` (`id`),
   CONSTRAINT `FKsykootfncpols90ifdjnqg3el` FOREIGN KEY (`camiseta_id`) REFERENCES `camiseta` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -126,7 +123,7 @@ CREATE TABLE `camiseta_estampada` (
 
 LOCK TABLES `camiseta_estampada` WRITE;
 /*!40000 ALTER TABLE `camiseta_estampada` DISABLE KEYS */;
-INSERT INTO `camiseta_estampada` VALUES (NULL,1,NULL,NULL),(NULL,2,NULL,NULL),(NULL,3,NULL,NULL),(NULL,4,NULL,NULL),(NULL,5,NULL,NULL),(NULL,6,NULL,NULL),(1,7,1,NULL),(NULL,8,NULL,NULL);
+INSERT INTO `camiseta_estampada` VALUES (NULL,1,NULL),(NULL,2,NULL),(NULL,3,NULL),(NULL,4,NULL),(NULL,5,NULL),(NULL,6,NULL),(1,7,NULL),(NULL,8,NULL);
 /*!40000 ALTER TABLE `camiseta_estampada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -514,4 +511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-06  9:05:28
+-- Dump completed on 2025-07-06  9:23:39
