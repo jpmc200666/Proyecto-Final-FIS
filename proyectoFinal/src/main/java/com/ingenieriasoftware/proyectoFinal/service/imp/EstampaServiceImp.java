@@ -26,8 +26,12 @@ public class EstampaServiceImp implements IEstampaService {
     @Override
     public List<EstampaDTO> findAll() {
         // Consulta personalizada con EntityManager para cargar imágenes
-        TypedQuery<Estampa> query = entityManager.createQuery(
-                "SELECT e FROM Estampa e JOIN FETCH e.imagenes", Estampa.class);
+//        TypedQuery<Estampa> query = entityManager.createQuery("SELECT e FROM Estampa e JOIN FETCH e.imagenes", Estampa.class);
+
+        /**
+         * Se deja left join, para traer las estampas así no tengan imagenes
+         */
+        TypedQuery<Estampa> query = entityManager.createQuery("SELECT e FROM Estampa e LEFT JOIN e.imagenes", Estampa.class);
 
         List<Estampa> estampas = query.getResultList();
 

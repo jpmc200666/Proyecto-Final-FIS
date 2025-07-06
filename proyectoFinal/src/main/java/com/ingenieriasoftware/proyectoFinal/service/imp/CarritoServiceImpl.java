@@ -2,6 +2,7 @@ package com.ingenieriasoftware.proyectoFinal.service.imp;
 
 import com.ingenieriasoftware.proyectoFinal.models.Carrito;
 import com.ingenieriasoftware.proyectoFinal.models.Cliente;
+import com.ingenieriasoftware.proyectoFinal.models.ItemCarrito;
 import com.ingenieriasoftware.proyectoFinal.models.Pedido;
 import com.ingenieriasoftware.proyectoFinal.repositories.CarritoRepository;
 import com.ingenieriasoftware.proyectoFinal.repositories.ClienteRepository;
@@ -79,6 +80,11 @@ public class CarritoServiceImpl implements ICarritoService {
         }
 
 //        carritoRepository.
+        return null;
+    }
+
+
+    private ItemCarrito agregarItemCarrito(Long idCarrito, Long idCamisetaEstampada){
         return null;
     }
 }

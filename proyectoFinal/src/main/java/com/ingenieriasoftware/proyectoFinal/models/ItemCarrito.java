@@ -22,8 +22,9 @@ public class ItemCarrito {
 
     private int cantidad;
 
-    @OneToMany(targetEntity = CamisetaEstampada.class, cascade = CascadeType.ALL, mappedBy = "itemCarrito")
-    private List<CamisetaEstampada> camisetaEstampadas;
+    @JsonIgnore
+    @ManyToOne(targetEntity = CamisetaEstampada.class)
+    private CamisetaEstampada camisetaEstampada;
 
     @JsonIgnore
     @ManyToOne(targetEntity = Carrito.class)
