@@ -35,6 +35,7 @@ CREATE TABLE `administrador` (
 
 LOCK TABLES `administrador` WRITE;
 /*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
+INSERT INTO `administrador` VALUES (7);
 /*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,6 +66,7 @@ CREATE TABLE `artista` (
 
 LOCK TABLES `artista` WRITE;
 /*!40000 ALTER TABLE `artista` DISABLE KEYS */;
+INSERT INTO `artista` VALUES (0,NULL,9,NULL);
 /*!40000 ALTER TABLE `artista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +116,7 @@ CREATE TABLE `camiseta_estampada` (
   PRIMARY KEY (`id`),
   KEY `FKsykootfncpols90ifdjnqg3el` (`camiseta_id`),
   CONSTRAINT `FKsykootfncpols90ifdjnqg3el` FOREIGN KEY (`camiseta_id`) REFERENCES `camiseta` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +125,7 @@ CREATE TABLE `camiseta_estampada` (
 
 LOCK TABLES `camiseta_estampada` WRITE;
 /*!40000 ALTER TABLE `camiseta_estampada` DISABLE KEYS */;
-INSERT INTO `camiseta_estampada` VALUES (NULL,1,NULL),(NULL,2,NULL),(NULL,3,NULL),(NULL,4,NULL),(NULL,5,NULL),(NULL,6,NULL),(1,7,NULL),(NULL,8,NULL);
+INSERT INTO `camiseta_estampada` VALUES (NULL,1,NULL),(NULL,2,NULL),(NULL,3,NULL),(NULL,4,NULL),(NULL,5,NULL),(NULL,6,NULL),(1,7,NULL),(NULL,8,NULL),(1,9,10000),(NULL,10,NULL);
 /*!40000 ALTER TABLE `camiseta_estampada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +171,7 @@ CREATE TABLE `carrito` (
   `fecha_creacion` date DEFAULT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +180,7 @@ CREATE TABLE `carrito` (
 
 LOCK TABLES `carrito` WRITE;
 /*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
-INSERT INTO `carrito` VALUES (1000.00,600000,NULL,1),(0.00,300,'2025-07-02',2);
+INSERT INTO `carrito` VALUES (11000.00,600000,NULL,1),(20000.00,300,'2025-07-02',2),(0.00,300,'2025-07-06',3);
 /*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +231,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (NULL,2),(NULL,3);
+INSERT INTO `cliente` VALUES (NULL,2),(NULL,3),(NULL,8);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,7 +312,7 @@ CREATE TABLE `item_carrito` (
   KEY `FK5ijhtx42b1qayuvkwjf8rp30i` (`camiseta_estampada_id`),
   CONSTRAINT `FK5ijhtx42b1qayuvkwjf8rp30i` FOREIGN KEY (`camiseta_estampada_id`) REFERENCES `camiseta_estampada` (`id`),
   CONSTRAINT `FK7jlhnuuh4m7q1cn77xhtx9kdq` FOREIGN KEY (`carrito_id`) REFERENCES `carrito` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -319,7 +321,7 @@ CREATE TABLE `item_carrito` (
 
 LOCK TABLES `item_carrito` WRITE;
 /*!40000 ALTER TABLE `item_carrito` DISABLE KEYS */;
-INSERT INTO `item_carrito` VALUES (1,1,1,NULL);
+INSERT INTO `item_carrito` VALUES (1,1,1,NULL),(2,1,2,9),(2,2,3,9),(1,2,4,9);
 /*!40000 ALTER TABLE `item_carrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +333,7 @@ DROP TABLE IF EXISTS `pago`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pago` (
-  `metodos_pago` tinyint DEFAULT NULL,
+  `metodos_pago` varchar(255) DEFAULT NULL,
   `cedula` bigint NOT NULL,
   `fecha_transaccion` date NOT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -341,11 +343,10 @@ CREATE TABLE `pago` (
   `nombre` varchar(255) DEFAULT NULL,
   `plataforma` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UKfxo25lxg6k2xtgoe4pf778vme` (`cedula`),
   UNIQUE KEY `UKcjukh0gqou26iq8ro20j829ug` (`pedido_id`),
   CONSTRAINT `FK8fojprqy7kv7k3d192m91e027` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`),
   CONSTRAINT `pago_chk_1` CHECK ((`metodos_pago` between 0 and 1))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,6 +355,7 @@ CREATE TABLE `pago` (
 
 LOCK TABLES `pago` WRITE;
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
+INSERT INTO `pago` VALUES (NULL,12345,'2025-07-06',8,3,'PG','48cb4fb5-6f7e-4974-8083-152b62935b85','ADMIN','OWN_SYSTEM');
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +380,7 @@ CREATE TABLE `pedido` (
   CONSTRAINT `FK30s8j2ktpay6of18lbyqn3632` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   CONSTRAINT `FK78e8injhefpm6130ipsi1bj2n` FOREIGN KEY (`carrito_id`) REFERENCES `carrito` (`id`),
   CONSTRAINT `FKkcpitr7lxw3ky3oaqmlqit7d1` FOREIGN KEY (`pago_id`) REFERENCES `pago` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -387,7 +389,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
-INSERT INTO `pedido` VALUES (NULL,1,2,1,NULL,'AC'),('2025-07-02',2,3,3,NULL,'AC');
+INSERT INTO `pedido` VALUES (NULL,1,2,1,NULL,'AC'),('2025-07-02',2,3,3,NULL,'PG'),('2025-07-06',3,3,4,NULL,'AC');
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,10 +488,11 @@ CREATE TABLE `usuario` (
   `email` varchar(255) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `estado` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK5171l57faosmj8myawaucatdw` (`email`),
   UNIQUE KEY `UKcto7dkti4t38iq8r4cqesbd8k` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -498,7 +501,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy'),(NULL,2,'jona@gmail.com','jona','$2a$10$npMpl4HkyS9wy1q2MJDkRuCQ.kBDXBiZXcqMBsJaDuGekJJ5OknWG'),(NULL,3,'javier@gmail.com','javier','$2a$10$lhy0rcQR5SieqMRKCjsIa./8GruJoI.ArHNlF2wil.B0p1Jr.RG7u'),(NULL,4,'juan@gmail.com','juanperez','$2a$10$UB1kDzLYyo1N81fUpqqqBePb3MFqK5uTBqmQNbl9zZcST/QHd6LM6');
+INSERT INTO `usuario` VALUES (NULL,1,'admin@gmail.com','admin','$2a$10$HhU8Bsguf9ebVqSGfJf.Fu2kklmdElBuaks3iEmpqHUvZ/M4uVdKy','AC'),(NULL,2,'jona@gmail.com','jona','$2a$10$npMpl4HkyS9wy1q2MJDkRuCQ.kBDXBiZXcqMBsJaDuGekJJ5OknWG','AC'),(NULL,3,'javier@gmail.com','javier','$2a$10$lhy0rcQR5SieqMRKCjsIa./8GruJoI.ArHNlF2wil.B0p1Jr.RG7u','AC'),(NULL,4,'juan@gmail.com','juanperez','$2a$10$UB1kDzLYyo1N81fUpqqqBePb3MFqK5uTBqmQNbl9zZcST/QHd6LM6','AC'),(NULL,7,'jonaAdmin@gmail.com','jonaAdmin','$2a$10$E3RSLaYWrSCOT/FRKGYlcuRPBirEGeQ3GxncHscG87kjIwkvvr/Ri','AC'),(NULL,8,'jonaCliente@gmail.com','jonaCliente','$2a$10$Xsei8fddAwUlUy6YeT5thOfIcMh2rZG.qrq1uPk3ILMxYoY0glZcW','AC'),(NULL,9,'jonaArtista@gmail.com','jonaArtista','$2a$10$6slYfk/YfDjfm9Yu8JLshe32dhzPfy0x4qWRFg3VRA2CL3KXGjAzS','AC');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -511,4 +514,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-06  9:23:39
+-- Dump completed on 2025-07-06 13:27:57

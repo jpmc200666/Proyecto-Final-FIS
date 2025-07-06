@@ -37,6 +37,8 @@ public class Usuario implements UserDetails {
     @Column(name="fecha_registro", columnDefinition = "DATE")
     private LocalDate fechaRegistro;
 
+    private String estado;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> collection = new ArrayList<>();
