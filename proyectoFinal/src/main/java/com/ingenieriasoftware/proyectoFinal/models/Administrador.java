@@ -16,6 +16,10 @@ import java.util.List;
 @Table(name="administrador")
 public class Administrador extends Usuario{
 
+    public Administrador(UsuarioBuilder<?, ?> b) {
+        super(b);
+    }
+
     @OneToMany(targetEntity = Artista.class, fetch = FetchType.LAZY, mappedBy = "administrador")
     private List<Artista> artistas;
 

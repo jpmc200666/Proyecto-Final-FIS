@@ -3,7 +3,13 @@ package com.ingenieriasoftware.proyectoFinal.auth;
 import com.ingenieriasoftware.proyectoFinal.dtos.UsuarioDTO;
 import com.ingenieriasoftware.proyectoFinal.error.ResponseException;
 import com.ingenieriasoftware.proyectoFinal.jwt.JwtService;
+import com.ingenieriasoftware.proyectoFinal.models.Administrador;
+import com.ingenieriasoftware.proyectoFinal.models.Artista;
+import com.ingenieriasoftware.proyectoFinal.models.Cliente;
 import com.ingenieriasoftware.proyectoFinal.models.Usuario;
+import com.ingenieriasoftware.proyectoFinal.repositories.AdministradorRepository;
+import com.ingenieriasoftware.proyectoFinal.repositories.ArtistaRepository;
+import com.ingenieriasoftware.proyectoFinal.repositories.ClienteRepository;
 import com.ingenieriasoftware.proyectoFinal.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +32,12 @@ public class AuthService {
     // Repositorio para manejar operaciones relacionadas con usuarios.
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private AdministradorRepository administradorRepository;
+    @Autowired
+    private ArtistaRepository artistaRepository;
 
     // Servicio para la generación y validación de tokens JWT.
     @Autowired
@@ -95,14 +107,36 @@ public class AuthService {
                 throw new IllegalArgumentException("Ya existe un usuario con el email proporcionado");
             }
 
-            Usuario usuario = Usuario.builder()
+            Usuario.UsuarioBuilder usuarioBuilder = Usuario.builder()
                     .nombre(request.getNombre())
                     .password(passEncode.encode(request.getPassword()))
-                    .email(request.getEmail())
-                    .build();
+                    .email(request.getEmail());
+
+            Usuario usuario = usuarioBuilder.build();
 
 
-            usuarioRepository.save(usuario);
+//            usuarioRepository.save(usuario);
+
+            switch (request.getRol()) {
+                case "cliente":
+                    Cliente cliente = new Cliente(usuarioBuilder);
+                    clienteRepository.save(cliente);
+                    break;
+
+                case "artista":
+                    Artista artista = new Artista(usuarioBuilder);
+                    artistaRepository.save(artista);
+                    break;
+
+                case "administrador":
+                    Administrador administrador = new Administrador(usuarioBuilder);
+                    administradorRepository.save(administrador);
+                    break;
+
+                default:
+                    System.out.println("El rol no existe, se crea unicamente el usuario");
+                    //TODO crear manejador de errores
+            }
 
             return RegisterResponse.builder()
                     .statusCode(200)

@@ -25,4 +25,6 @@ public class UsuarioDTO {
 
     // Correo electrónico del usuario.
     String email;
+
+    String rol;
 }
