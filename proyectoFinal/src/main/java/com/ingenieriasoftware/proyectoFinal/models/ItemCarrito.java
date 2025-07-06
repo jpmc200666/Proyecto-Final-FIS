@@ -22,7 +22,7 @@ public class ItemCarrito {
 
     private int cantidad;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(targetEntity = CamisetaEstampada.class)
     private CamisetaEstampada camisetaEstampada;
 

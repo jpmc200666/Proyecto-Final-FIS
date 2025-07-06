@@ -27,4 +27,6 @@ public class CamisetaEstampadaDTO {
     private Camiseta camiseta;
 
     private ItemCarrito itemCarrito;
+
+    private Double precioCamiseta;
 }

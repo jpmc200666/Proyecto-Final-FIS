@@ -37,9 +37,11 @@ public class CamisetaEstampada {
     @MapKeyJoinColumn(name = "estampa_id")    // FK a ESTAMPA
     private Map<Estampa, PropsEstampaAplicada> estampasAplicadas = new HashMap<>();
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Camiseta.class)
     private Camiseta camiseta;
 
+    @JsonIgnore
     @OneToMany(targetEntity = ItemCarrito.class, cascade = CascadeType.ALL, mappedBy = "camisetaEstampada")
     private List<ItemCarrito> itemsCarrito;
 

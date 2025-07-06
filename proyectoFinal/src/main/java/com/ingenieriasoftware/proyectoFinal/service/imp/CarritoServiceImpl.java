@@ -1,11 +1,10 @@
 package com.ingenieriasoftware.proyectoFinal.service.imp;
 
-import com.ingenieriasoftware.proyectoFinal.models.Carrito;
-import com.ingenieriasoftware.proyectoFinal.models.Cliente;
-import com.ingenieriasoftware.proyectoFinal.models.ItemCarrito;
-import com.ingenieriasoftware.proyectoFinal.models.Pedido;
+import com.ingenieriasoftware.proyectoFinal.dtos.CamisetaEstampadaDTO;
+import com.ingenieriasoftware.proyectoFinal.models.*;
 import com.ingenieriasoftware.proyectoFinal.repositories.CarritoRepository;
 import com.ingenieriasoftware.proyectoFinal.repositories.ClienteRepository;
+import com.ingenieriasoftware.proyectoFinal.repositories.ItemCarritoRepository;
 import com.ingenieriasoftware.proyectoFinal.repositories.PedidoRepository;
 import com.ingenieriasoftware.proyectoFinal.service.interfaces.ICarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,16 @@ public class CarritoServiceImpl implements ICarritoService {
     private CarritoRepository carritoRepository;
 
     @Autowired
+    private ItemCarritoRepository itemCarritoRepository;
+
+    @Autowired
     private PedidoRepository pedidoRepository;
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private CamisetaEstampadaServiceImp camisetaEstampadaService;
 
     /**
      * Retornamos el carrito activo (si existe) para el cliente seleccionadado
@@ -83,8 +88,50 @@ public class CarritoServiceImpl implements ICarritoService {
         return null;
     }
 
+    /**
+     * Agregamos un item carrito (relacion entre carriot y camiseta estampada)
+     * @param idCarrito             id del carrito del ususario
+     * @param idCamisetaEstampada   id de la camiseta estampada a agregar
+     * @param cantidad              cantidad de camisetas a comprar
+     * @return                      ItemCarrito
+     */
+    public ItemCarrito agregarItemCarrito(Long idCarrito, Long idCamisetaEstampada, int cantidad){
 
-    private ItemCarrito agregarItemCarrito(Long idCarrito, Long idCamisetaEstampada){
+        Carrito carrito = findById(idCarrito);
+        CamisetaEstampada camisetaEstampada = camisetaEstampadaService.findById(idCamisetaEstampada);
+
+        if(carrito != null && camisetaEstampada != null){
+            ItemCarrito itemCarrito = ItemCarrito.builder()
+                    .carrito(carrito)
+                    .camisetaEstampada(camisetaEstampada)
+                    .cantidad(cantidad)
+                    .build();
+
+            //Guardamos el item carrito
+            itemCarritoRepository.save(itemCarrito);
+
+            //Actualizamos el total del carrito de compras
+            BigDecimal precioCarrito = carrito.getTotalCarrito().add(BigDecimal.valueOf(camisetaEstampada.getPrecioCamiseta()));
+            carrito.setTotalCarrito(precioCarrito);
+            carritoRepository.save(carrito);
+
+            return itemCarrito;
+        }
+
+        System.out.println(String.format("El carrito %s o La camisetaEstampada %s no existen", idCarrito, idCamisetaEstampada));
+        return null;
+    }
+
+    /**
+     * Buscamos un Carrito por su id
+     * @param id    idCarrito
+     * @return      obj Carrito
+     */
+    @Override
+    public Carrito findById(Long id) {
+        Optional<Carrito> optionalCarrito = carritoRepository.findById(id);
+        if (optionalCarrito.isPresent()) return optionalCarrito.get();
+        System.out.println(String.format("El carrito %s no existe", id));
         return null;
     }
 }

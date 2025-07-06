@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"admin\",\r\n    \"password\":\"admin\",\r\n    \"email\":\"admin@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"javier\",\r\n    \"password\":\"javier\",\r\n    \"email\":\"javier@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+					"raw": "{\r\n    \"email\": \"javier@gmail.com\",\r\n    \"password\": \"javier\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -73,7 +73,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTMwOTcyMSwiZXhwIjoxNzUxMzEzMzIxfQ.TxJ7X6o_TCM2qE7eunMquYphQHvgUvpDrZags8ZY3Ms",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
 							"type": "string"
 						}
 					]
@@ -107,10 +107,29 @@
 		{
 			"name": "ListadoEstampas",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/EstampaController/listadoEstampas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"EstampaController",
+						"listadoEstampas"
+					]
 				}
 			},
 			"response": []
@@ -123,13 +142,22 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTQyNTUxNywiZXhwIjoxNzUxNDI5MTE3fQ.jgTne7_7g9e8SOlkdXiJroUHkc8h5PxXYYDVNYCOHr4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
 							"type": "string"
 						}
 					]
 				},
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"camiseta\": {\"id\":1},\r\n    \"itemCarrito\": {\"id\":5},\r\n    \"estampasAplicadas\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8080/CamisetaEstampadaController/creacion",
 					"host": [
@@ -152,7 +180,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTQzMDU2MSwiZXhwIjoxNzUxNDM0MTYxfQ.IF_dBf__0GjWM8Tc1YZhnuujCnheB3E2ojkHVwxZots",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE0ODM4OTUsImV4cCI6MTc1MTQ4NzQ5NX0.7tI0-klFlogTYwIb9puYK8eWlEV40EvMiAbey4sLflw",
 							"type": "string"
 						}
 					]
@@ -160,7 +188,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/carrito/active-by-cliente?idCliente=2",
+					"raw": "localhost:8080/carrito/active-by-cliente?idCliente=3",
 					"host": [
 						"localhost"
 					],
@@ -172,7 +200,7 @@
 					"query": [
 						{
 							"key": "idCliente",
-							"value": "2"
+							"value": "3"
 						}
 					]
 				}
@@ -180,10 +208,40 @@
 			"response": []
 		},
 		{
-			"name": "CreacionCamisetaEstampada",
+			"name": "add itemCarrito",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idCarrito\": 2,\r\n    \"idCamisetaEstampada\": 9,\r\n    \"cantidad\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/carrito/add-item-carrito",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"carrito",
+						"add-item-carrito"
+					]
+				}
 			},
 			"response": []
 		}
