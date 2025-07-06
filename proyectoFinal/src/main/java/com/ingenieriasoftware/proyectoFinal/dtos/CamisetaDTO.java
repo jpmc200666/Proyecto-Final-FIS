@@ -1,7 +1,7 @@
 package com.ingenieriasoftware.proyectoFinal.dtos;
 
 import com.ingenieriasoftware.proyectoFinal.models.Stock;
-import com.ingenieriasoftware.proyectoFinal.models.Tallas;
+import com.ingenieriasoftware.proyectoFinal.util.constant.TallaEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class CamisetaDTO {
 
     private String color;
 
-    private Tallas talla;
+    private TallaEnum talla;
 
     private String material;
 

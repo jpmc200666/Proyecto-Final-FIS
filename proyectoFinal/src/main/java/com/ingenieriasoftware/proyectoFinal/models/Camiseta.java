@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.ingenieriasoftware.proyectoFinal.util.constant.TallaEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class Camiseta {
 
     private String color;
     @Enumerated(EnumType.STRING)
-    private Tallas talla;
+    private TallaEnum talla;
     private String material;
 
     private Double precio;

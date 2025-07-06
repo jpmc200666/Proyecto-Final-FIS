@@ -180,7 +180,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE0ODM4OTUsImV4cCI6MTc1MTQ4NzQ5NX0.7tI0-klFlogTYwIb9puYK8eWlEV40EvMiAbey4sLflw",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MjE0MTAsImV4cCI6MTc1MTgyNTAxMH0.6JEHNmMDQPGlwkZjKqsPqm9sijFIpVavo6rph-4aDyI",
 							"type": "string"
 						}
 					]
@@ -224,7 +224,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"idCarrito\": 2,\r\n    \"idCamisetaEstampada\": 9,\r\n    \"cantidad\": 2\r\n}",
+					"raw": "{\r\n    \"idCarrito\": 2,\r\n    \"idCamisetaEstampada\": 9,\r\n    \"cantidad\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -240,6 +240,44 @@
 					"path": [
 						"carrito",
 						"add-item-carrito"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear pago",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MjE0MTAsImV4cCI6MTc1MTgyNTAxMH0.6JEHNmMDQPGlwkZjKqsPqm9sijFIpVavo6rph-4aDyI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idPedido\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pago/crear-pago",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pago",
+						"crear-pago"
 					]
 				}
 			},
