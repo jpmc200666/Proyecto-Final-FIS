@@ -1,27 +1,33 @@
 // Base interfaces
 export interface Print {
     id: number
-    name: string
-    artist: string
-    category: string
-    image: string
+    nombre: string
+    descripcion: string
+    precioBase: number
     rating: number
-    downloads: number
-    price: number
-    tags: string[]
+    tema: string
+    fechaPublicacion: string
+    estado: boolean
+    imagenes: string[]
+    catalogo: any | null
+}
+
+export interface TshirtStock {
+    id: number
+    capacidad: number
+    fechaUltimaActualizacion: string
+    proveedores: any[]
+    hibernateLazyInitializer?: object
 }
 
 export interface TshirtModel {
     id: number
-    name: string
+    color: string
+    talla: string
     material: string
-    image: string
-    colors: string[]
-    sizes: string[]
-    price: number
-    rating: number
-    reviews: number
-    category: string
+    precio: number
+    urlImagen: string
+    stock: TshirtStock
 }
 
 // Design tool specific interfaces

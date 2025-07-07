@@ -9,17 +9,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Eye, EyeOff, Mail, Lock, Shirt, Github, Chrome, AlertCircle } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, Shirt, AlertCircle } from "lucide-react"
 import { setAuthToken, setUserData, isAuthenticated, type User } from "@/lib/auth"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -94,20 +91,7 @@ export default function LoginPage() {
     }
   }
 
-  const handleSocialLogin = async (provider: string) => {
-    setIsLoading(true)
-    setError("")
-
-    try {
-      // Redirect to profile after a successful social login
-      router.push("/profile")
-    } catch (err) {
-      setError(`${provider} login failed. Please try again.`)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
+    // Render the login form
   return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
@@ -176,47 +160,12 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                        id="remember"
-                        checked={rememberMe}
-                        onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                        disabled={isLoading}
-                    />
-                    <Label htmlFor="remember" className="text-sm">
-                      Recuérdame
-                    </Label>
-                  </div>
-                  <Link href="/auth/forgot-password" className="text-sm text-purple-600 hover:underline">
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                </div>
+
 
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
                 </Button>
               </form>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator className="w-full" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-gray-500">O continúa con</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <Button variant="outline" onClick={() => handleSocialLogin("Google")} disabled={isLoading}>
-                  <Chrome className="h-4 w-4 mr-2" />
-                  Google
-                </Button>
-                <Button variant="outline" onClick={() => handleSocialLogin("GitHub")} disabled={isLoading}>
-                  <Github className="h-4 w-4 mr-2" />
-                  GitHub
-                </Button>
-              </div>
             </CardContent>
 
             <CardFooter>

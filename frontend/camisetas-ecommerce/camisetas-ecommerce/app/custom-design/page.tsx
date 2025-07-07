@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -11,182 +11,58 @@ import SlideMenu from "@/components/slide-menu"
 import { Type, Palette, Download, ShoppingCart, Shirt } from "lucide-react"
 import type { Print, TshirtModel, TshirtColor } from "@/lib/products"
 
-// Mock data for prints
-const prints: Print[] = [
-  {
-    id: 1,
-    name: "Vintage Sunset",
-    artist: "Sarah Chen",
-    category: "Nature",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.9,
-    downloads: 1240,
-    price: 5.99,
-    tags: ["vintage", "sunset", "retro", "nature"],
-  },
-  {
-    id: 2,
-    name: "Abstract Geometry",
-    artist: "Mike Rodriguez",
-    category: "Abstract",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.7,
-    downloads: 890,
-    price: 4.99,
-    tags: ["geometric", "modern", "minimal", "abstract"],
-  },
-  {
-    id: 3,
-    name: "Floral Pattern",
-    artist: "Emma Wilson",
-    category: "Nature",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.8,
-    downloads: 2100,
-    price: 6.99,
-    tags: ["floral", "botanical", "elegant", "nature"],
-  },
-  {
-    id: 4,
-    name: "Urban Street Art",
-    artist: "Alex Thompson",
-    category: "Street Art",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.6,
-    downloads: 756,
-    price: 7.99,
-    tags: ["urban", "graffiti", "edgy", "street"],
-  },
-  {
-    id: 5,
-    name: "Minimalist Logo",
-    artist: "David Kim",
-    category: "Typography",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.5,
-    downloads: 1580,
-    price: 3.99,
-    tags: ["minimal", "logo", "clean", "typography"],
-  },
-  {
-    id: 6,
-    name: "Galaxy Space",
-    artist: "Luna Martinez",
-    category: "Space",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.9,
-    downloads: 1890,
-    price: 8.99,
-    tags: ["space", "galaxy", "cosmic", "stars"],
-  },
-  {
-    id: 7,
-    name: "Retro Wave",
-    artist: "Neon Dreams",
-    category: "Retro",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.7,
-    downloads: 1340,
-    price: 6.49,
-    tags: ["retro", "synthwave", "neon", "80s"],
-  },
-  {
-    id: 8,
-    name: "Mountain Landscape",
-    artist: "Nature Co",
-    category: "Nature",
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.8,
-    downloads: 980,
-    price: 5.49,
-    tags: ["mountain", "landscape", "outdoor", "adventure"],
-  },
-]
 
-// Mock data for t-shirt models
-const tshirtModels: TshirtModel[] = [
-  {
-    id: 1,
-    name: "Classic Crew Neck",
-    material: "100% Cotton",
-    image: "/placeholder.svg?height=300&width=300",
-    colors: ["white", "black", "gray", "navy"],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    price: 19.99,
-    rating: 4.8,
-    reviews: 324,
-    category: "classic",
-  },
-  {
-    id: 2,
-    name: "Premium V-Neck",
-    material: "Organic Cotton Blend",
-    image: "/placeholder.svg?height=300&width=300",
-    colors: ["white", "black", "heather-gray"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    price: 24.99,
-    rating: 4.9,
-    reviews: 189,
-    category: "premium",
-  },
-  {
-    id: 3,
-    name: "Oversized Fit",
-    material: "Heavy Cotton",
-    image: "/placeholder.svg?height=300&width=300",
-    colors: ["black", "white", "cream", "sage"],
-    sizes: ["S", "M", "L", "XL"],
-    price: 29.99,
-    rating: 4.7,
-    reviews: 156,
-    category: "oversized",
-  },
-  {
-    id: 4,
-    name: "Fitted Tee",
-    material: "Cotton-Poly Blend",
-    image: "/placeholder.svg?height=300&width=300",
-    colors: ["white", "black", "pink", "blue"],
-    sizes: ["XS", "S", "M", "L", "XL"],
-    price: 22.99,
-    rating: 4.6,
-    reviews: 278,
-    category: "fitted",
-  },
-  {
-    id: 5,
-    name: "Long Sleeve",
-    material: "100% Cotton",
-    image: "/placeholder.svg?height=300&width=300",
-    colors: ["white", "black", "gray"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    price: 27.99,
-    rating: 4.8,
-    reviews: 203,
-    category: "long-sleeve",
-  },
-  {
-    id: 6,
-    name: "Tank Top",
-    material: "Lightweight Cotton",
-    image: "/placeholder.svg?height=300&width=300",
-    colors: ["white", "black", "gray", "navy", "red"],
-    sizes: ["XS", "S", "M", "L", "XL"],
-    price: 17.99,
-    rating: 4.5,
-    reviews: 142,
-    category: "tank",
-  },
-]
 
 export default function CustomDesignPage() {
-  const [selectedTshirt, setSelectedTshirt] = useState<TshirtModel>(tshirtModels[0])
+  // Estados para camisetas y estampas desde la API
+  const [prints, setPrints] = useState<Print[]>([])
+  const [printsLoading, setPrintsLoading] = useState(true)
+  const [printsError, setPrintsError] = useState<string | null>(null)
+
+  const [tshirtModels, setTshirtModels] = useState<TshirtModel[]>([])
+  const [tshirtsLoading, setTshirtsLoading] = useState(true)
+  const [tshirtsError, setTshirtsError] = useState<string | null>(null)
+
+  // Estados de selección
+  const [selectedTshirt, setSelectedTshirt] = useState<TshirtModel | null>(null)
   const [selectedPrint, setSelectedPrint] = useState<Print | null>(null)
   const [selectedColor, setSelectedColor] = useState<string>("white")
   const [selectedSize, setSelectedSize] = useState<string>("")
   const [designText, setDesignText] = useState<string>("")
   const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium")
   const [textColor, setTextColor] = useState<string>("black")
+
+  useEffect(() => {
+    // Fetch estampas
+    const fetchPrints = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/EstampaController/listadoEstampas")
+        if (!res.ok) throw new Error("Error al cargar las estampas")
+        const data = await res.json()
+        setPrints(data)
+      } catch (err: any) {
+        setPrintsError(err.message || "Error desconocido")
+      } finally {
+        setPrintsLoading(false)
+      }
+    }
+    // Fetch camisetas
+    const fetchTshirts = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/CamisetaController/listadoCamisetas")
+        if (!res.ok) throw new Error("Error al cargar las camisetas")
+        const data = await res.json()
+        setTshirtModels(data)
+        setSelectedTshirt(data[0] || null)
+      } catch (err: any) {
+        setTshirtsError(err.message || "Error desconocido")
+      } finally {
+        setTshirtsLoading(false)
+      }
+    }
+    fetchPrints()
+    fetchTshirts()
+  }, [])
 
   const tshirtColors: TshirtColor[] = [
     { name: "Blanco", value: "white", hex: "#FFFFFF" },
@@ -200,8 +76,8 @@ export default function CustomDesignPage() {
   const sizes = ["S", "M", "L", "XL", "XXL"]
 
   const calculateTotal = (): string => {
-    let total = selectedTshirt.price
-    if (selectedPrint) total += selectedPrint.price
+    let total = selectedTshirt?.precio ?? 0
+    if (selectedPrint) total += selectedPrint.precioBase ?? 0
     return total.toFixed(2)
   }
 
@@ -240,8 +116,8 @@ export default function CustomDesignPage() {
                         {/* Print background */}
                         {selectedPrint && (
                             <img
-                                src={selectedPrint.image || "/placeholder.svg"}
-                                alt={selectedPrint.name}
+                                src={selectedPrint.imagenes && selectedPrint.imagenes.length > 0 ? selectedPrint.imagenes[0] : "/placeholder.svg"}
+                                alt={selectedPrint.nombre}
                                 className="absolute inset-0 w-full h-full object-cover rounded opacity-80"
                             />
                         )}
@@ -282,18 +158,26 @@ export default function CustomDesignPage() {
                   <div>
                     <Label>Camiseta seleccionada</Label>
                     <div className="mt-2 p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <img
-                            src={selectedTshirt.image || "/placeholder.svg"}
-                            alt={selectedTshirt.name}
-                            className="w-12 h-12 object-cover rounded"
-                        />
-                        <div>
-                          <p className="font-medium">{selectedTshirt.name}</p>
-                          <p className="text-sm text-gray-600">{selectedTshirt.material}</p>
-                          <p className="text-sm font-medium">${selectedTshirt.price}</p>
+                      {tshirtsLoading ? (
+                        <p className="text-gray-500">Cargando camisetas...</p>
+                      ) : tshirtsError ? (
+                        <p className="text-red-500">{tshirtsError}</p>
+                      ) : selectedTshirt ? (
+                        <div className="flex items-center gap-3">
+                          <img
+                              src={selectedTshirt.urlImagen || "/placeholder.svg"}
+                              alt={selectedTshirt.color}
+                              className="w-12 h-12 object-cover rounded"
+                          />
+                          <div>
+                            <p className="font-medium">{selectedTshirt.color} - Talla {selectedTshirt.talla}</p>
+                            <p className="text-sm text-gray-600">{selectedTshirt.material}</p>
+                            <p className="text-sm font-medium">${selectedTshirt.precio}</p>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <p className="text-gray-500">No hay camiseta seleccionada</p>
+                      )}
                     </div>
                   </div>
 
@@ -303,14 +187,14 @@ export default function CustomDesignPage() {
                         <div className="mt-2 p-3 bg-gray-50 rounded-lg">
                           <div className="flex items-center gap-3">
                             <img
-                                src={selectedPrint.image || "/placeholder.svg"}
-                                alt={selectedPrint.name}
+                                src={selectedPrint.imagenes && selectedPrint.imagenes.length > 0 ? selectedPrint.imagenes[0] : "/placeholder.svg"}
+                                alt={selectedPrint.nombre}
                                 className="w-12 h-12 object-cover rounded"
                             />
                             <div>
-                              <p className="font-medium">{selectedPrint.name}</p>
-                              <p className="text-sm text-gray-600">por {selectedPrint.artist}</p>
-                              <p className="text-sm font-medium">${selectedPrint.price}</p>
+                              <p className="font-medium">{selectedPrint.nombre}</p>
+                              <p className="text-sm text-gray-600">{selectedPrint.tema}</p>
+                              <p className="text-sm font-medium">${selectedPrint.precioBase}</p>
                             </div>
                           </div>
                         </div>
@@ -398,12 +282,22 @@ export default function CustomDesignPage() {
                           <Label className="text-base font-medium">Elige el modelo de camiseta</Label>
                           <p className="text-sm text-gray-600 mb-4">Selecciona la base perfecta para tu diseño</p>
                         </div>
-                        <SlideMenu<TshirtModel>
+                        {tshirtsLoading ? (
+                          <p className="text-gray-500">Cargando camisetas...</p>
+                        ) : tshirtsError ? (
+                          <p className="text-red-500">{tshirtsError}</p>
+                        ) : (
+                          <SlideMenu<TshirtModel>
                             items={tshirtModels}
-                            onSelect={setSelectedTshirt}
+                            onSelect={item => {
+                              setSelectedTshirt(item)
+                              setSelectedColor("white")
+                              setSelectedSize("")
+                            }}
                             selectedItem={selectedTshirt}
                             type="tshirts"
-                        />
+                          />
+                        )}
                       </div>
                     </TabsContent>
 
@@ -413,13 +307,19 @@ export default function CustomDesignPage() {
                           <Label className="text-base font-medium">Elige un diseño</Label>
                           <p className="text-sm text-gray-600 mb-4">Explora nuestra colección de diseños únicos</p>
                         </div>
-                        <SlideMenu<Print>
+                        {printsLoading ? (
+                          <p className="text-gray-500">Cargando estampas...</p>
+                        ) : printsError ? (
+                          <p className="text-red-500">{printsError}</p>
+                        ) : (
+                          <SlideMenu<Print>
                             items={prints}
                             onSelect={setSelectedPrint}
                             selectedItem={selectedPrint}
                             type="prints"
                             searchable={true}
-                        />
+                          />
+                        )}
                         {selectedPrint && (
                             <Button variant="outline" size="sm" onClick={() => setSelectedPrint(null)} className="w-full">
                               Quitar diseño

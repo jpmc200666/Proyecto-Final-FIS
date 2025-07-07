@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
-import { Eye, EyeOff, Mail, Lock, User, Shirt, Github, Chrome, AlertCircle, Check } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, User, Shirt, AlertCircle, Check } from "lucide-react"
 import {useRouter} from "next/navigation";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -29,6 +29,7 @@ export default function RegisterPage() {
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [role, setRole] = useState("")
   const router = useRouter()
 
   const updateFormData = (field: string, value: string) => {
@@ -54,13 +55,7 @@ export default function RegisterPage() {
     return "Strong"
   }
 
-  const getStrengthColor = (strength: number) => {
-    if (strength <= 25) return "bg-red-500"
-    if (strength <= 50) return "bg-yellow-500"
-    if (strength <= 75) return "bg-blue-500"
-    return "bg-green-500"
-  }
-
+    // Form validation
   const validateForm = () => {
     if (!formData.firstName.trim()) return "First name is required"
     if (!formData.lastName.trim()) return "Last name is required"
@@ -69,6 +64,7 @@ export default function RegisterPage() {
     if (formData.password !== formData.confirmPassword) return "Passwords don't match"
     if (passwordStrength < 50) return "Password is too weak"
     if (!agreeToTerms) return "You must agree to the terms and conditions"
+    if (!role) return "Please select a role"
     return null
   }
 
@@ -91,32 +87,38 @@ export default function RegisterPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          nombre: formData.firstName + formData.lastName,
+          nombre: formData.firstName,
           email: formData.email,
-          password: formData.password
+          password: formData.password,
+          role: role
         }),
       })
 
-      if(!respones.ok){
-        const errorData = await respones.json()
-        throw new Error(errorData.message || "Registration failed")
+      let data
+      try {
+        data = await respones.json()
+      } catch {
+        data = {}
       }
+
+      if(!respones.ok){
+        // Mostrar el mensaje específico del backend si existe
+        setError(data.message || "Registration failed")
+        return
+      }
+
       // Redirige a la página login después del registro exitoso
+      setError(data.message || "Registro exitoso")
       router.push("/auth/login")
-    } catch (err) {
-      setError("An error occurred. Please try again.")
+
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleSocialLogin = (provider: string) => {
-    setIsLoading(true)
-    setTimeout(() => {
-      alert(`${provider} registration would be implemented here`)
-      setIsLoading(false)
-    }, 1000)
-  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
@@ -187,6 +189,25 @@ export default function RegisterPage() {
                     required
                   />
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Selecciona tu rol</Label>
+                <RadioGroup
+                  value={role}
+                  onValueChange={setRole}
+                  className="flex space-x-4"
+                  required
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="user" id="user-role" />
+                    <Label htmlFor="user-role">Usuario</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="artist" id="artist-role" />
+                    <Label htmlFor="artist-role">Artista</Label>
+                  </div>
+                </RadioGroup>
               </div>
 
               <div className="space-y-2">
@@ -307,35 +328,15 @@ export default function RegisterPage() {
               </Button>
             </form>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
+            <CardFooter>
+              <div className="text-center text-sm text-gray-600 w-full">
+                ¿Ya tienes una cuenta?{" "}
+                <Link href="/auth/login" className="text-purple-600 hover:underline font-medium">
+                  Inicia sesión
+                </Link>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">O regístrate con</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" onClick={() => handleSocialLogin("Google")} disabled={isLoading}>
-                <Chrome className="h-4 w-4 mr-2" />
-                Google
-              </Button>
-              <Button variant="outline" onClick={() => handleSocialLogin("GitHub")} disabled={isLoading}>
-                <Github className="h-4 w-4 mr-2" />
-                GitHub
-              </Button>
-            </div>
+            </CardFooter>
           </CardContent>
-
-          <CardFooter>
-            <div className="text-center text-sm text-gray-600 w-full">
-              ¿Ya tienes una cuenta?{" "}
-              <Link href="/auth/login" className="text-purple-600 hover:underline font-medium">
-                Inicia sesión
-              </Link>
-            </div>
-          </CardFooter>
         </Card>
       </div>
     </div>
