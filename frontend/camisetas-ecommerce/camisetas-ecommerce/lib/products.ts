@@ -1,3 +1,10 @@
+// Nueva interfaz para las imágenes de estampas
+export interface Imagen {
+    id: number
+    url: string
+    descripcion: string
+}
+
 // Base interfaces
 export interface Print {
     id: number
@@ -8,9 +15,10 @@ export interface Print {
     tema: string
     fechaPublicacion: string
     estado: boolean
-    imagenes: string[]
+    imagenes: Imagen[]
     catalogo: any | null
 }
+
 
 export interface TshirtStock {
     id: number

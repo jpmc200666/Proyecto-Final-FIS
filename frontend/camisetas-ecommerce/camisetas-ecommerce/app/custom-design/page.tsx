@@ -111,32 +111,30 @@ export default function CustomDesignPage() {
                           border: selectedColor === "white" ? "1px solid #e5e7eb" : "none",
                         }}
                     >
+                      {/* Text overlay en la parte superior del mockup */}
+                      {designText && (
+                          <div
+                              className={`absolute top-4 left-1/2 -translate-x-1/2 w-[90%] text-center font-bold z-10 ${
+                                  fontSize === "small" ? "text-sm" : fontSize === "medium" ? "text-lg" : "text-2xl"
+                              }`}
+                              style={{ color: textColor }}
+                          >
+                            {designText}
+                          </div>
+                      )}
                       {/* Design area */}
-                      <div className="w-48 h-32 border-2 border-dashed border-gray-300 flex items-center justify-center relative">
+                      <div className="w-48 h-32 border-2 border-dashed border-gray-300 flex items-center justify-center absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 bg-transparent" style={{ zIndex: 1 }}>
                         {/* Print background */}
                         {selectedPrint && (
                             <img
-                                src={selectedPrint.imagenes && selectedPrint.imagenes.length > 0 ? selectedPrint.imagenes[0] : "/placeholder.svg"}
+                                src={selectedPrint.imagenes?.[0]?.url || "/placeholder.svg"}
                                 alt={selectedPrint.nombre}
                                 className="absolute inset-0 w-full h-full object-cover rounded opacity-80"
                             />
                         )}
-
-                        {/* Text overlay */}
-                        {designText && (
-                            <div
-                                className={`text-center font-bold z-10 ${
-                                    fontSize === "small" ? "text-sm" : fontSize === "medium" ? "text-lg" : "text-2xl"
-                                }`}
-                                style={{ color: textColor }}
-                            >
-                              {designText}
-                            </div>
-                        )}
-
                         {/* Placeholder */}
                         {!selectedPrint && !designText && (
-                            <p className="text-gray-400 text-sm text-center">
+                            <p className="text-gray-400 text-sm text-center z-10">
                               Selecciona un diseño o añade texto para ver tu diseño
                             </p>
                         )}
@@ -187,7 +185,7 @@ export default function CustomDesignPage() {
                         <div className="mt-2 p-3 bg-gray-50 rounded-lg">
                           <div className="flex items-center gap-3">
                             <img
-                                src={selectedPrint.imagenes && selectedPrint.imagenes.length > 0 ? selectedPrint.imagenes[0] : "/placeholder.svg"}
+                                src={selectedPrint.imagenes?.[0]?.url || "/placeholder.svg"}
                                 alt={selectedPrint.nombre}
                                 className="w-12 h-12 object-cover rounded"
                             />
@@ -219,6 +217,7 @@ export default function CustomDesignPage() {
                   </div>
 
                   <div>
+                    {/*
                     <Label htmlFor="size">Talla</Label>
                     <Select value={selectedSize} onValueChange={setSelectedSize}>
                       <SelectTrigger>
@@ -232,6 +231,7 @@ export default function CustomDesignPage() {
                         ))}
                       </SelectContent>
                     </Select>
+                    */}
                   </div>
 
                   <div className="pt-4 border-t">
@@ -243,14 +243,18 @@ export default function CustomDesignPage() {
                         <ShoppingCart className="h-4 w-4 mr-2" />
                         Añadir al carrito
                       </Button>
+                      {/* Button to save design, can be expanded later
                       <Button variant="outline">
-                        <Download className="h-4 w-4 mr-2" />
+
+                          <Download className="h-4 w-4 mr-2" />
                         Guardar diseño
                       </Button>
+                      */}
                     </div>
                   </div>
                 </CardContent>
               </Card>
+
             </div>
 
             {/* Design Tools */}

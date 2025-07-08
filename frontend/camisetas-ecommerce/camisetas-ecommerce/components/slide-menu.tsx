@@ -3,7 +3,6 @@
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, ChevronRight, Search, Star, Heart } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { Print, TshirtModel, SlideMenuProps } from "@/lib/products"
@@ -27,12 +26,17 @@ export default function SlideMenu<T extends Print | TshirtModel>({
             if (type === "prints") {
                 const printItem = item as Print
                 return (
-                    printItem.name.toLowerCase().includes(searchLower) ||
-                    printItem.artist.toLowerCase().includes(searchLower) ||
-                    printItem.tags.some((tag: string) => tag.toLowerCase().includes(searchLower))
+                    printItem.nombre.toLowerCase().includes(searchLower) ||
+                    printItem.descripcion.toLowerCase().includes(searchLower) ||
+                    printItem.tema.toLowerCase().includes(searchLower)
                 )
             } else {
-                return item.name.toLowerCase().includes(searchLower)
+                const tshirtItem = item as TshirtModel
+                return (
+                    tshirtItem.color.toLowerCase().includes(searchLower) ||
+                    tshirtItem.talla.toLowerCase().includes(searchLower) ||
+                    tshirtItem.material.toLowerCase().includes(searchLower)
+                )
             }
         })
         : items
@@ -152,11 +156,21 @@ export default function SlideMenu<T extends Print | TshirtModel>({
                         >
                             <div className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow">
                                 <div className="relative">
-                                    <img
-                                        src={item.image || "/placeholder.svg"}
-                                        alt={item.name}
-                                        className="w-full h-32 object-cover rounded-t-lg"
-                                    />
+                                    {/* Imagen */}
+                                    {type === "prints" ? (
+                                        <img
+                                            src={(item as Print).imagenes?.[0]?.url || "/placeholder.svg"}
+                                            alt={(item as Print).nombre}
+                                            className="w-full h-32 object-cover rounded-t-lg"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={(item as TshirtModel).urlImagen || "/placeholder.svg"}
+                                            alt={(item as TshirtModel).color}
+                                            className="w-full h-32 object-cover rounded-t-lg"
+                                        />
+                                    )}
+                                    {/* Botón favorito solo para prints */}
                                     {type === "prints" && (
                                         <div className="absolute top-2 right-2 flex gap-1 opacity-0 hover:opacity-100 transition-opacity">
                                             <Button size="sm" className="h-6 w-6 rounded-full p-0" onClick={(e) => e.stopPropagation()}>
@@ -172,26 +186,23 @@ export default function SlideMenu<T extends Print | TshirtModel>({
                                 </div>
 
                                 <div className="p-3">
-                                    <h4 className="font-medium text-sm mb-1 truncate">{item.name}</h4>
+                                    <h4 className="font-medium text-sm mb-1 truncate">
+                                        {type === "prints"
+                                            ? (item as Print).nombre
+                                            : (item as TshirtModel).color + " - " + (item as TshirtModel).talla}
+                                    </h4>
 
                                     {type === "prints"
                                         ? (() => {
                                             const printItem = item as Print
                                             return (
                                                 <>
-                                                    <p className="text-xs text-gray-600 mb-2">by {printItem.artist}</p>
+                                                    <p className="text-xs text-gray-600 mb-2">{printItem.tema}</p>
                                                     <div className="flex items-center gap-1 mb-2">
                                                         <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                                                         <span className="text-xs text-gray-600">{printItem.rating}</span>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-1 mb-2">
-                                                        {printItem.tags.slice(0, 2).map((tag: string) => (
-                                                            <Badge key={tag} variant="outline" className="text-xs px-1 py-0">
-                                                                {tag}
-                                                            </Badge>
-                                                        ))}
-                                                    </div>
-                                                    <div className="text-sm font-bold text-purple-600">${printItem.price}</div>
+                                                    <div className="text-sm font-bold text-purple-600">${printItem.precioBase}</div>
                                                 </>
                                             )
                                         })()
@@ -200,20 +211,8 @@ export default function SlideMenu<T extends Print | TshirtModel>({
                                             return (
                                                 <>
                                                     <p className="text-xs text-gray-600 mb-2">{tshirtItem.material}</p>
-                                                    <div className="flex items-center gap-1 mb-2">
-                                                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                                        <span className="text-xs text-gray-600">{tshirtItem.rating}</span>
-                                                    </div>
-                                                    <div className="flex gap-1 mb-2">
-                                                        {tshirtItem.colors.slice(0, 4).map((color: string) => (
-                                                            <div
-                                                                key={color}
-                                                                className={`w-3 h-3 rounded-full ${getColorClass(color)}`}
-                                                                title={color}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                    <div className="text-sm font-bold">${tshirtItem.price}</div>
+                                                    {/* No hay rating ni colores en TshirtModel según products.ts */}
+                                                    <div className="text-sm font-bold">${tshirtItem.precio}</div>
                                                 </>
                                             )
                                         })()}
@@ -221,6 +220,7 @@ export default function SlideMenu<T extends Print | TshirtModel>({
                             </div>
                         </div>
                     ))}
+
                 </div>
 
                 {/* Indicators */}

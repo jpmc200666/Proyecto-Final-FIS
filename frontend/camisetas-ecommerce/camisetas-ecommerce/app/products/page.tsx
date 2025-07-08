@@ -219,7 +219,7 @@ export default function ProductsPage() {
                       <CardContent className="p-0">
                         <div className="relative">
                           <img
-                            src={print.imagenes && print.imagenes.length > 0 ? print.imagenes[0] : "/placeholder.svg"}
+                            src={print.imagenes?.[0]?.url || "/placeholder.svg"}
                             alt={print.nombre}
                             className="w-full h-64 object-cover rounded-t-lg"
                           />

@@ -18,7 +18,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -57,14 +56,13 @@ export default function RegisterPage() {
 
     // Form validation
   const validateForm = () => {
-    if (!formData.firstName.trim()) return "First name is required"
-    if (!formData.lastName.trim()) return "Last name is required"
-    if (!formData.email.trim()) return "Email is required"
-    if (!formData.password) return "Password is required"
-    if (formData.password !== formData.confirmPassword) return "Passwords don't match"
-    if (passwordStrength < 50) return "Password is too weak"
-    if (!agreeToTerms) return "You must agree to the terms and conditions"
-    if (!role) return "Please select a role"
+    if (!formData.firstName.trim()) return "El nombre es obligatorio"
+    if (!formData.email.trim()) return "El correo electrónico es obligatorio"
+    if (!formData.password) return "La contraseña es obligatoria"
+    if (formData.password !== formData.confirmPassword) return "Las contraseñas no coinciden"
+    if (passwordStrength < 50) return "La contraseña es demasiado débil"
+    if (!agreeToTerms) return "Debes aceptar los términos y condiciones"
+    if (!role) return "Por favor selecciona un rol"
     return null
   }
 
@@ -81,6 +79,12 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
+      // Asegura que el valor de rol sea exactamente "artista" o "usuario"
+      const rolValue = role === "artista" ? "artista" : "usuario"
+      // Log para depuración
+      console.log("Rol seleccionado:", role)
+      console.log("Rol enviado al backend:", rolValue)
+
       const respones = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: {
@@ -88,9 +92,9 @@ export default function RegisterPage() {
         },
         body: JSON.stringify({
           nombre: formData.firstName,
-          email: formData.email,
           password: formData.password,
-          role: role
+          email: formData.email,
+          rol: rolValue,
         }),
       })
 
@@ -102,12 +106,10 @@ export default function RegisterPage() {
       }
 
       if(!respones.ok){
-        // Mostrar el mensaje específico del backend si existe
         setError(data.message || "Registration failed")
         return
       }
 
-      // Redirige a la página login después del registro exitoso
       setError(data.message || "Registro exitoso")
       router.push("/auth/login")
 
@@ -163,16 +165,7 @@ export default function RegisterPage() {
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Apellido</Label>
-                  <Input
-                    id="lastName"
-                    placeholder="Pérez"
-                    value={formData.lastName}
-                    onChange={(e) => updateFormData("lastName", e.target.value)}
-                    required
-                  />
-                </div>
+                {/* Apellido eliminado */}
               </div>
 
               <div className="space-y-2">
@@ -200,11 +193,11 @@ export default function RegisterPage() {
                   required
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="user" id="user-role" />
+                    <RadioGroupItem value="usuario" id="user-role" />
                     <Label htmlFor="user-role">Usuario</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="artist" id="artist-role" />
+                    <RadioGroupItem value="artista" id="artist-role" />
                     <Label htmlFor="artist-role">Artista</Label>
                   </div>
                 </RadioGroup>

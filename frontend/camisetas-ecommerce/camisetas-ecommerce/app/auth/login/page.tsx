@@ -43,49 +43,54 @@ export default function LoginPage() {
       })
 
       if (!response.ok) {
-        throw new Error("Invalid email or password.")
+        const errorData = await response.json()
+        setError(errorData.message || "An error occurred. Please try again.")
+        return
       }
-        const data = await response.json()
-        console.log(data)
+      const data = await response.json()
+      // Mostrar los roles en consola
+      console.log("Roles del usuario:", data.roles)
+      // Extraer el primer rol del array roles
+      const userRole = Array.isArray(data.roles) && data.roles.length > 0 ? data.roles[0] : undefined
 
-        // Mock successful login
-        const mockToken = data.token
-        const mockUser: User = {
-          id: "1",
-          firstName: data.nombre,
-          lastName: "Doe",
-          email: data.email,
-          phone: "+1 (555) 123-4567",
-          avatar: "/placeholder.svg?height=100&width=100",
-          joinDate: "2023-01-15",
-          role: data.role,
-          address: {
-            street: "123 Main St",
-            city: "Springfield",
-            state: "IL",
-            zipCode: "62704",
-            country: "USA",
-          },
-          stats: {
-            totalOrders: 5,
-            totalSpent: 299.99,
-            wishlistItems: 3,
-            loyaltyPoints: 120,
-          },
-          orders: [],
-          wishlist: [],
-        }
+      // Mock successful login
+      const mockToken = data.token
+      const mockUser: User = {
+        id: "1",
+        firstName: data.nombre,
+        lastName: "Doe",
+        email: data.email,
+        phone: "+1 (555) 123-4567",
+        avatar: "/placeholder.svg?height=100&width=100",
+        joinDate: "2023-01-15",
+        role: userRole,
+        address: {
+          street: "123 Main St",
+          city: "Springfield",
+          state: "IL",
+          zipCode: "62704",
+          country: "USA",
+        },
+        stats: {
+          totalOrders: 5,
+          totalSpent: 299.99,
+          wishlistItems: 3,
+          loyaltyPoints: 120,
+        },
+        orders: [],
+        wishlist: [],
+      }
 
-        // Store auth data
-        console.log(mockUser)
-        setAuthToken(mockToken)
-        setUserData(mockUser)
+      // Store auth data
+      console.log(mockUser)
+      setAuthToken(mockToken)
+      setUserData(mockUser)
 
-        // Redirect to profile
-        router.push("/profile")
+      // Redirect to profile
+      router.push("/profile")
 
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError("An error occurred.")
     } finally {
       setIsLoading(false)
     }

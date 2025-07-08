@@ -145,12 +145,12 @@ function ProfileContent() {
             <div className="container mx-auto px-4 py-8">
                 <div className="mb-8 flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold mb-2">My Profile</h1>
-                        <p className="text-gray-600">Manage your account settings and view your order history</p>
+                        <h1 className="text-3xl font-bold mb-2">Mi Perfil</h1>
+                        <p className="text-gray-600">Administra la configuración de tu cuenta y revisa tu historial de pedidos</p>
                     </div>
                     <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2 bg-transparent">
                         <LogOut className="h-4 w-4" />
-                        Sign Out
+                        Cerrar sesión
                     </Button>
                 </div>
 
@@ -186,11 +186,11 @@ function ProfileContent() {
                                         </Button>
                                     </div>
                                     <h3 className="font-semibold text-lg mt-4">
-                                        {profileData.firstName} {profileData.lastName}
+                                        {profileData.firstName}
                                     </h3>
                                     <p className="text-gray-600 text-sm">{profileData.email}</p>
                                     <p className="text-xs text-gray-500 mt-1">
-                                        Member since {new Date(profileData.joinDate).toLocaleDateString()}
+                                        Miembro desde {new Date(profileData.joinDate).toLocaleDateString()}
                                     </p>
                                     <div className="mt-2">
                                         <Badge className={`text-xs ${getRoleInfo(profileData.role).color}`}>
@@ -203,17 +203,17 @@ function ProfileContent() {
                                     <div className="grid grid-cols-2 gap-4 text-center">
                                         <div>
                                             <div className="text-2xl font-bold text-purple-600">{stats.totalOrders}</div>
-                                            <div className="text-xs text-gray-600">Orders</div>
+                                            <div className="text-xs text-gray-600">Pedidos</div>
                                         </div>
                                         <div>
                                             <div className="text-2xl font-bold text-green-600">${stats.totalSpent.toFixed(2)}</div>
-                                            <div className="text-xs text-gray-600">Spent</div>
+                                            <div className="text-xs text-gray-600">Gastado</div>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4 text-center">
                                         <div>
                                             <div className="text-2xl font-bold text-red-600">{stats.wishlistItems}</div>
-                                            <div className="text-xs text-gray-600">Wishlist</div>
+                                            <div className="text-xs text-gray-600">Favoritos</div>
                                         </div>
                                     </div>
                                 </div>
@@ -226,19 +226,19 @@ function ProfileContent() {
                             <TabsList className="grid w-full grid-cols-4">
                                 <TabsTrigger value="profile" className="flex items-center gap-2">
                                     <UserIcon className="h-4 w-4" />
-                                    Profile
+                                    Perfil
                                 </TabsTrigger>
                                 <TabsTrigger value="orders" className="flex items-center gap-2">
                                     <Package className="h-4 w-4" />
-                                    Orders
+                                    Pedidos
                                 </TabsTrigger>
                                 <TabsTrigger value="wishlist" className="flex items-center gap-2">
                                     <Heart className="h-4 w-4" />
-                                    Wishlist
+                                    Favoritos
                                 </TabsTrigger>
                                 <TabsTrigger value="settings" className="flex items-center gap-2">
                                     <Settings className="h-4 w-4" />
-                                    Settings
+                                    Configuración
                                 </TabsTrigger>
                             </TabsList>
 
@@ -246,8 +246,8 @@ function ProfileContent() {
                                 <Card>
                                     <CardHeader className="flex flex-row items-center justify-between">
                                         <div>
-                                            <CardTitle>Personal Information</CardTitle>
-                                            <CardDescription>Update your personal details and contact information</CardDescription>
+                                            <CardTitle>Información Personal</CardTitle>
+                                            <CardDescription>Actualiza tus datos personales y de contacto</CardDescription>
                                         </div>
                                         <Button
                                             variant={isEditing ? "default" : "outline"}
@@ -255,13 +255,13 @@ function ProfileContent() {
                                             disabled={isLoading}
                                         >
                                             {isLoading ? (
-                                                "Saving..."
+                                                "Guardando..."
                                             ) : isEditing ? (
-                                                "Save Changes"
+                                                "Guardar Cambios"
                                             ) : (
                                                 <>
                                                     <Edit className="h-4 w-4 mr-2" />
-                                                    Edit
+                                                    Editar
                                                 </>
                                             )}
                                         </Button>
@@ -269,7 +269,7 @@ function ProfileContent() {
                                     <CardContent className="space-y-6">
                                         <div className="grid md:grid-cols-2 gap-4">
                                             <div className="space-y-2">
-                                                <Label htmlFor="firstName">First Name</Label>
+                                                <Label htmlFor="firstName">Nombre</Label>
                                                 <Input
                                                     id="firstName"
                                                     value={profileData.firstName}
@@ -277,20 +277,12 @@ function ProfileContent() {
                                                     disabled={!isEditing}
                                                 />
                                             </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="lastName">Last Name</Label>
-                                                <Input
-                                                    id="lastName"
-                                                    value={profileData.lastName}
-                                                    onChange={(e) => handleInputChange("lastName", e.target.value)}
-                                                    disabled={!isEditing}
-                                                />
-                                            </div>
+                                            {/* Apellido eliminado */}
                                         </div>
 
                                         <div className="grid md:grid-cols-2 gap-4">
                                             <div className="space-y-2">
-                                                <Label htmlFor="email">Email</Label>
+                                                <Label htmlFor="email">Correo electrónico</Label>
                                                 <div className="relative">
                                                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                                                     <Input
@@ -304,7 +296,7 @@ function ProfileContent() {
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
-                                                <Label htmlFor="phone">Phone</Label>
+                                                <Label htmlFor="phone">Teléfono</Label>
                                                 <div className="relative">
                                                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                                                     <Input
@@ -319,7 +311,7 @@ function ProfileContent() {
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label>Account Role</Label>
+                                            <Label>Rol de la cuenta</Label>
                                             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                                                 <Badge className={getRoleInfo(profileData.role).color}>
                                                     {getRoleInfo(profileData.role).label}
@@ -335,11 +327,11 @@ function ProfileContent() {
                                         <div>
                                             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                                 <MapPin className="h-5 w-5" />
-                                                Shipping Address
+                                                Dirección de envío
                                             </h3>
                                             <div className="space-y-4">
                                                 <div className="space-y-2">
-                                                    <Label htmlFor="street">Street Address</Label>
+                                                    <Label htmlFor="street">Dirección</Label>
                                                     <Input
                                                         id="street"
                                                         value={(profileData as any).address?.street || ""}
@@ -349,7 +341,7 @@ function ProfileContent() {
                                                 </div>
                                                 <div className="grid md:grid-cols-2 gap-4">
                                                     <div className="space-y-2">
-                                                        <Label htmlFor="city">City</Label>
+                                                        <Label htmlFor="city">Ciudad</Label>
                                                         <Input
                                                             id="city"
                                                             value={(profileData as any).address?.city || ""}
@@ -358,7 +350,7 @@ function ProfileContent() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label htmlFor="state">State</Label>
+                                                        <Label htmlFor="state">Departamento/Estado</Label>
                                                         <Input
                                                             id="state"
                                                             value={(profileData as any).address?.state || ""}
@@ -369,7 +361,7 @@ function ProfileContent() {
                                                 </div>
                                                 <div className="grid md:grid-cols-2 gap-4">
                                                     <div className="space-y-2">
-                                                        <Label htmlFor="zipCode">ZIP Code</Label>
+                                                        <Label htmlFor="zipCode">Código Postal</Label>
                                                         <Input
                                                             id="zipCode"
                                                             value={(profileData as any).address?.zipCode || ""}
@@ -378,7 +370,7 @@ function ProfileContent() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label htmlFor="country">Country</Label>
+                                                        <Label htmlFor="country">País</Label>
                                                         <Input
                                                             id="country"
                                                             value={(profileData as any).address?.country || ""}
@@ -396,8 +388,8 @@ function ProfileContent() {
                             <TabsContent value="orders">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle>Order History</CardTitle>
-                                        <CardDescription>View and track your recent orders</CardDescription>
+                                        <CardTitle>Historial de Pedidos</CardTitle>
+                                        <CardDescription>Consulta y rastrea tus pedidos recientes</CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-6">
@@ -406,7 +398,7 @@ function ProfileContent() {
                                                     <div className="flex items-center justify-between mb-4">
                                                         <div className="flex items-center gap-4">
                                                             <div>
-                                                                <h3 className="font-semibold">Order {order.id}</h3>
+                                                                <h3 className="font-semibold">Pedido {order.id}</h3>
                                                                 <p className="text-sm text-gray-600 flex items-center gap-1">
                                                                     <Calendar className="h-4 w-4" />
                                                                     {new Date(order.date).toLocaleDateString()}
@@ -422,12 +414,12 @@ function ProfileContent() {
                                                             <div className="flex gap-2 mt-2">
                                                                 <Button size="sm" variant="outline">
                                                                     <Eye className="h-4 w-4 mr-1" />
-                                                                    View
+                                                                    Ver
                                                                 </Button>
                                                                 {order.status === "delivered" && (
                                                                     <Button size="sm" variant="outline">
                                                                         <Download className="h-4 w-4 mr-1" />
-                                                                        Invoice
+                                                                        Factura
                                                                     </Button>
                                                                 )}
                                                             </div>
@@ -444,7 +436,7 @@ function ProfileContent() {
                                                                 <div className="flex-1">
                                                                     <h4 className="font-medium">{item.name}</h4>
                                                                     <p className="text-sm text-gray-600">
-                                                                        Size: {item.size} | Color: {item.color} | Qty: {item.quantity}
+                                                                        Talla: {item.size} | Color: {item.color} | Cantidad: {item.quantity}
                                                                     </p>
                                                                 </div>
                                                                 <div className="font-semibold">${(item.price * item.quantity).toFixed(2)}</div>
@@ -461,8 +453,8 @@ function ProfileContent() {
                             <TabsContent value="wishlist">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle>My Wishlist</CardTitle>
-                                        <CardDescription>Items you've saved for later</CardDescription>
+                                        <CardTitle>Mis Favoritos</CardTitle>
+                                        <CardDescription>Productos que has guardado para después</CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -477,15 +469,15 @@ function ProfileContent() {
                                                     <div className="flex items-center justify-between mb-3">
                                                         <span className="font-bold">${item.price}</span>
                                                         <Badge variant={item.inStock ? "default" : "secondary"}>
-                                                            {item.inStock ? "In Stock" : "Out of Stock"}
+                                                            {item.inStock ? "Disponible" : "Agotado"}
                                                         </Badge>
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <Button size="sm" className="flex-1" disabled={!item.inStock}>
-                                                            Add to Cart
+                                                            Añadir al carrito
                                                         </Button>
                                                         <Button size="sm" variant="outline">
-                                                            Remove
+                                                            Quitar
                                                         </Button>
                                                     </div>
                                                 </div>
@@ -499,58 +491,58 @@ function ProfileContent() {
                                 <div className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle>Account Settings</CardTitle>
-                                            <CardDescription>Manage your account preferences and security</CardDescription>
+                                            <CardTitle>Configuración de la Cuenta</CardTitle>
+                                            <CardDescription>Administra tus preferencias y seguridad</CardDescription>
                                         </CardHeader>
                                         <CardContent className="space-y-4">
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <h3 className="font-medium">Email Notifications</h3>
-                                                    <p className="text-sm text-gray-600">Receive updates about your orders and promotions</p>
+                                                    <h3 className="font-medium">Notificaciones por correo</h3>
+                                                    <p className="text-sm text-gray-600">Recibe actualizaciones sobre tus pedidos y promociones</p>
                                                 </div>
                                                 <Button variant="outline" size="sm">
-                                                    Configure
+                                                    Configurar
                                                 </Button>
                                             </div>
                                             <Separator />
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <h3 className="font-medium">Change Password</h3>
-                                                    <p className="text-sm text-gray-600">Update your account password</p>
+                                                    <h3 className="font-medium">Cambiar contraseña</h3>
+                                                    <p className="text-sm text-gray-600">Actualiza la contraseña de tu cuenta</p>
                                                 </div>
                                                 <Button variant="outline" size="sm">
-                                                    Change
+                                                    Cambiar
                                                 </Button>
                                             </div>
                                             <Separator />
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <h3 className="font-medium">Two-Factor Authentication</h3>
-                                                    <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
+                                                    <h3 className="font-medium">Autenticación en dos pasos</h3>
+                                                    <p className="text-sm text-gray-600">Agrega una capa extra de seguridad a tu cuenta</p>
                                                 </div>
                                                 <Button variant="outline" size="sm">
-                                                    Enable
+                                                    Activar
                                                 </Button>
                                             </div>
                                             <Separator />
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <h3 className="font-medium text-red-600">Sign Out</h3>
-                                                    <p className="text-sm text-gray-600">Sign out from your account</p>
+                                                    <h3 className="font-medium text-red-600">Cerrar sesión</h3>
+                                                    <p className="text-sm text-gray-600">Cierra tu sesión de la cuenta</p>
                                                 </div>
                                                 <Button variant="destructive" size="sm" onClick={handleLogout}>
                                                     <LogOut className="h-4 w-4 mr-2" />
-                                                    Sign Out
+                                                    Cerrar sesión
                                                 </Button>
                                             </div>
                                             <Separator />
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <h3 className="font-medium text-red-600">Delete Account</h3>
-                                                    <p className="text-sm text-gray-600">Permanently delete your account and all data</p>
+                                                    <h3 className="font-medium text-red-600">Eliminar cuenta</h3>
+                                                    <p className="text-sm text-gray-600">Elimina tu cuenta y todos tus datos permanentemente</p>
                                                 </div>
                                                 <Button variant="destructive" size="sm">
-                                                    Delete
+                                                    Eliminar
                                                 </Button>
                                             </div>
                                         </CardContent>
