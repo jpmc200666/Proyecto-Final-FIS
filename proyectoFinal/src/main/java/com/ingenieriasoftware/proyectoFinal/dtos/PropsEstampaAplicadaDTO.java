@@ -1,18 +1,31 @@
 package com.ingenieriasoftware.proyectoFinal.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+// Si usas Lombok en los DTOs
+// import lombok.*;
 
-@Data // Genera automáticamente los métodos getter, setter, equals, hashCode y toString.
-@Builder // Permite construir instancias de la clase utilizando el patrón Builder.
-@AllArgsConstructor // Genera un constructor con todos los atributos como parámetros.
-@NoArgsConstructor
 public class PropsEstampaAplicadaDTO {
-    private int posicionX;
 
-    private int posicionY;
+    private Long id; // Opcional, si el id de la PropsEstampaAplicada se genera en BD
+    private Double coordX;
+    private Double coordY;
+    private Double tamano;
+    private Long estampaId; // ¡Esto es lo que necesitas para el ID de la estampa!
 
-    private String tamano;
+    // Getters y Setters y Constructor sin Lombok
+    public PropsEstampaAplicadaDTO() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Double getCoordX() { return coordX; }
+    public void setCoordX(Double coordX) { this.coordX = coordX; }
+
+    public Double getCoordY() { return coordY; }
+    public void setCoordY(Double coordY) { this.coordY = coordY; }
+
+    public Double getTamano() { return tamano; }
+    public void setTamano(Double tamano) { this.tamano = tamano; }
+
+    public Long getEstampaId() { return estampaId; }
+    public void setEstampaId(Long estampaId) { this.estampaId = estampaId; }
 }

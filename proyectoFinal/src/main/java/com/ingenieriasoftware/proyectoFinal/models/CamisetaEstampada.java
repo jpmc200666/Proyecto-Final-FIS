@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-
+import java.util.Set;
 
 
 @Getter
@@ -25,17 +24,12 @@ public class CamisetaEstampada {
 
     private Double precioCamiseta;
 
-//    @ManyToOne(targetEntity = Estampa.class)
-//    private Estampa estampa;
-
-    /** Key = Estampa  |  Value = Props de esa estampa */
-    @ElementCollection
-    @CollectionTable(
-            name = "camiseta_estampada_estampas",
-            joinColumns = @JoinColumn(name = "camiseta_estampada_id")
-    )
-    @MapKeyJoinColumn(name = "estampa_id")    // FK a ESTAMPA
-    private Map<Estampa, PropsEstampaAplicada> estampasAplicadas = new HashMap<>();
+    // RELACIÓN CORRECTA: OneToMany a tu entidad de unión PropsEstampaAplicada
+    // que ahora maneja la clave compuesta.
+    @OneToMany(mappedBy = "camisetaEstampada", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PropsEstampaAplicada> propsEstampasAplicadas = new HashSet<>();
+    // Usamos Set porque las relaciones OneToMany/ManyToMany suelen ser colecciones de Set o List.
+    // El "map" de tu DTO de entrada se gestionará en el servicio, no directamente en la entidad aquí.
 
     @JsonIgnore
     @ManyToOne(targetEntity = Camiseta.class)
