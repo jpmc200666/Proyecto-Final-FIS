@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"javier\",\r\n    \"password\":\"javier\",\r\n    \"email\":\"javier@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"jonaArtista\",\r\n    \"password\":\"jonaArtista\",\r\n    \"email\":\"jonaArtista@gmail.com\",\r\n    \"rol\": \"artista\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -69,14 +69,7 @@
 			},
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -108,14 +101,7 @@
 			"name": "ListadoEstampas",
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
