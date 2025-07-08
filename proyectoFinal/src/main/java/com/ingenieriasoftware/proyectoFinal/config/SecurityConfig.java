@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Permite preflight requests
-                                .requestMatchers("/auth/login", "/auth/register")
+                                .requestMatchers("/auth/login", "/auth/register", "/CamisetaController/listadoCamisetas", "/EstampaController/listadoEstampas")
                                     .permitAll()
                                 .anyRequest() // Restringe el acceso a todos los endpoints.
                                     .authenticated()
