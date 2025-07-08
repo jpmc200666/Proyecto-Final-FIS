@@ -16,6 +16,10 @@ import java.util.List;
 @Table(name="artista")
 public class Artista extends Usuario{
 
+    public Artista(UsuarioBuilder<?, ?> b) {
+        super(b);
+    }
+
     /**
      * La relacionn con estampa la realizamos a travez del catalogo
      */

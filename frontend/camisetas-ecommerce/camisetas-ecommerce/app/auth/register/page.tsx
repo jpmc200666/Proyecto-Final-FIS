@@ -8,17 +8,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
-import { Eye, EyeOff, Mail, Lock, User, Shirt, Github, Chrome, AlertCircle, Check } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, User, Shirt, AlertCircle, Check } from "lucide-react"
 import {useRouter} from "next/navigation";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -29,6 +28,7 @@ export default function RegisterPage() {
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+  const [role, setRole] = useState("")
   const router = useRouter()
 
   const updateFormData = (field: string, value: string) => {
@@ -54,21 +54,15 @@ export default function RegisterPage() {
     return "Strong"
   }
 
-  const getStrengthColor = (strength: number) => {
-    if (strength <= 25) return "bg-red-500"
-    if (strength <= 50) return "bg-yellow-500"
-    if (strength <= 75) return "bg-blue-500"
-    return "bg-green-500"
-  }
-
+    // Form validation
   const validateForm = () => {
-    if (!formData.firstName.trim()) return "First name is required"
-    if (!formData.lastName.trim()) return "Last name is required"
-    if (!formData.email.trim()) return "Email is required"
-    if (!formData.password) return "Password is required"
-    if (formData.password !== formData.confirmPassword) return "Passwords don't match"
-    if (passwordStrength < 50) return "Password is too weak"
-    if (!agreeToTerms) return "You must agree to the terms and conditions"
+    if (!formData.firstName.trim()) return "El nombre es obligatorio"
+    if (!formData.email.trim()) return "El correo electrónico es obligatorio"
+    if (!formData.password) return "La contraseña es obligatoria"
+    if (formData.password !== formData.confirmPassword) return "Las contraseñas no coinciden"
+    if (passwordStrength < 50) return "La contraseña es demasiado débil"
+    if (!agreeToTerms) return "Debes aceptar los términos y condiciones"
+    if (!role) return "Por favor selecciona un rol"
     return null
   }
 
@@ -85,38 +79,48 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
+      // Asegura que el valor de rol sea exactamente "artista" o "usuario"
+      const rolValue = role === "artista" ? "artista" : "usuario"
+      // Log para depuración
+      console.log("Rol seleccionado:", role)
+      console.log("Rol enviado al backend:", rolValue)
+
       const respones = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          nombre: formData.firstName + formData.lastName,
+          nombre: formData.firstName,
+          password: formData.password,
           email: formData.email,
-          password: formData.password
+          rol: rolValue,
         }),
       })
 
-      if(!respones.ok){
-        const errorData = await respones.json()
-        throw new Error(errorData.message || "Registration failed")
+      let data
+      try {
+        data = await respones.json()
+      } catch {
+        data = {}
       }
-      // Redirige a la página login después del registro exitoso
+
+      if(!respones.ok){
+        setError(data.message || "Registration failed")
+        return
+      }
+
+      setError(data.message || "Registro exitoso")
       router.push("/auth/login")
-    } catch (err) {
-      setError("An error occurred. Please try again.")
+
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleSocialLogin = (provider: string) => {
-    setIsLoading(true)
-    setTimeout(() => {
-      alert(`${provider} registration would be implemented here`)
-      setIsLoading(false)
-    }, 1000)
-  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
@@ -125,15 +129,15 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2">
             <Shirt className="h-8 w-8 text-purple-600" />
-            <span className="text-2xl font-bold text-gray-900">TeeShop</span>
+            <span className="text-2xl font-bold text-gray-900">Estampate!</span>
           </Link>
         </div>
 
         <Card className="shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Create your account</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Crea tu cuenta</CardTitle>
             <CardDescription className="text-center">
-              Join TeeShop and start designing your custom t-shirts
+              Únete a Estampate! y comienza a diseñar tus camisetas personalizadas
             </CardDescription>
           </CardHeader>
 
@@ -148,12 +152,12 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First name</Label>
+                  <Label htmlFor="firstName">Nombre</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <Input
                       id="firstName"
-                      placeholder="John"
+                      placeholder="Juan"
                       value={formData.firstName}
                       onChange={(e) => updateFormData("firstName", e.target.value)}
                       className="pl-10"
@@ -161,26 +165,17 @@ export default function RegisterPage() {
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last name</Label>
-                  <Input
-                    id="lastName"
-                    placeholder="Doe"
-                    value={formData.lastName}
-                    onChange={(e) => updateFormData("lastName", e.target.value)}
-                    required
-                  />
-                </div>
+                {/* Apellido eliminado */}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Correo electrónico</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder="juan@ejemplo.com"
                     value={formData.email}
                     onChange={(e) => updateFormData("email", e.target.value)}
                     className="pl-10"
@@ -190,13 +185,32 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label>Selecciona tu rol</Label>
+                <RadioGroup
+                  value={role}
+                  onValueChange={setRole}
+                  className="flex space-x-4"
+                  required
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="usuario" id="user-role" />
+                    <Label htmlFor="user-role">Usuario</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="artista" id="artist-role" />
+                    <Label htmlFor="artist-role">Artista</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Contraseña</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Create a strong password"
+                    placeholder="Crea una contraseña segura"
                     value={formData.password}
                     onChange={(e) => updateFormData("password", e.target.value)}
                     className="pl-10 pr-10"
@@ -213,7 +227,7 @@ export default function RegisterPage() {
                 {formData.password && (
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span>Password strength</span>
+                      <span>Fortaleza de la contraseña</span>
                       <span
                         className={
                           passwordStrength >= 75
@@ -223,7 +237,15 @@ export default function RegisterPage() {
                               : "text-red-600"
                         }
                       >
-                        {getStrengthLabel(passwordStrength)}
+                        {getStrengthLabel(passwordStrength) === "Weak"
+                          ? "Débil"
+                          : getStrengthLabel(passwordStrength) === "Fair"
+                          ? "Aceptable"
+                          : getStrengthLabel(passwordStrength) === "Good"
+                          ? "Buena"
+                          : getStrengthLabel(passwordStrength) === "Strong"
+                          ? "Fuerte"
+                          : ""}
                       </span>
                     </div>
                     <Progress value={passwordStrength} className="h-2" />
@@ -232,13 +254,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm password</Label>
+                <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
+                    placeholder="Confirma tu contraseña"
                     value={formData.confirmPassword}
                     onChange={(e) => updateFormData("confirmPassword", e.target.value)}
                     className="pl-10 pr-10"
@@ -271,13 +293,13 @@ export default function RegisterPage() {
                     onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
                   />
                   <Label htmlFor="terms" className="text-sm">
-                    I agree to the{" "}
+                    Acepto {" "}
                     <Link href="/terms" className="text-purple-600 hover:underline">
-                      Terms of Service
+                      Términos de servicio
                     </Link>{" "}
-                    and{" "}
+                    y la{" "}
                     <Link href="/privacy" className="text-purple-600 hover:underline">
-                      Privacy Policy
+                      Política de privacidad
                     </Link>
                   </Label>
                 </div>
@@ -289,45 +311,25 @@ export default function RegisterPage() {
                     onCheckedChange={(checked) => setSubscribeNewsletter(checked as boolean)}
                   />
                   <Label htmlFor="newsletter" className="text-sm">
-                    Subscribe to our newsletter for updates and exclusive offers
+                    Suscribirme al boletín para recibir novedades y ofertas exclusivas
                   </Label>
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create account"}
+                {isLoading ? "Creando cuenta..." : "Crear cuenta"}
               </Button>
             </form>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
+            <CardFooter>
+              <div className="text-center text-sm text-gray-600 w-full">
+                ¿Ya tienes una cuenta?{" "}
+                <Link href="/auth/login" className="text-purple-600 hover:underline font-medium">
+                  Inicia sesión
+                </Link>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Or sign up with</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" onClick={() => handleSocialLogin("Google")} disabled={isLoading}>
-                <Chrome className="h-4 w-4 mr-2" />
-                Google
-              </Button>
-              <Button variant="outline" onClick={() => handleSocialLogin("GitHub")} disabled={isLoading}>
-                <Github className="h-4 w-4 mr-2" />
-                GitHub
-              </Button>
-            </div>
+            </CardFooter>
           </CardContent>
-
-          <CardFooter>
-            <div className="text-center text-sm text-gray-600 w-full">
-              Already have an account?{" "}
-              <Link href="/auth/login" className="text-purple-600 hover:underline font-medium">
-                Sign in
-              </Link>
-            </div>
-          </CardFooter>
         </Card>
       </div>
     </div>

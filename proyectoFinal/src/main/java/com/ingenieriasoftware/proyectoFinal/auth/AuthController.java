@@ -26,6 +26,8 @@ public class AuthController {
     /**
      * Endpoint para iniciar sesión en el sistema.
      *
+     * TODO Validar el # de intentos
+     *
      * @param request Un objeto LoginRequest que contiene las credenciales del usuario.
      * @return Una respuesta HTTP con el resultado de la autenticación.
      */
@@ -57,6 +59,12 @@ public class AuthController {
         }
     }
 
+    /**
+     * TODO Responder cuando el usuario ya este registrado
+     * TODO Agregar roles
+     * @param request
+     * @return
+     */
     @PostMapping(value = "/register", produces = "application/json")
     public ResponseEntity<?> createUsuario(@RequestBody UsuarioDTO request) {
         RegisterResponse res = authService.create(request);
@@ -65,4 +73,8 @@ public class AuthController {
         }
         return ResponseEntity.ok(res);
     }
+
+    /**
+     * TODO Agregar función para bloquear usuario
+     */
 }

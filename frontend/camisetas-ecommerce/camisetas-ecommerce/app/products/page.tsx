@@ -1,115 +1,144 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Star, ShoppingCart, Filter, Search } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Star, ShoppingCart, Search, Download, Heart, Palette } from "lucide-react"
+import type { Print, TshirtModel, SortOption } from "@/lib/products"
 
-const products = [
-  {
-    id: 1,
-    name: "Vintage Sunset Tee",
-    price: 29.99,
-    originalPrice: 39.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.8,
-    reviews: 124,
-    category: "vintage",
-    colors: ["black", "white", "gray"],
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    id: 2,
-    name: "Minimalist Logo Shirt",
-    price: 24.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.6,
-    reviews: 89,
-    category: "minimalist",
-    colors: ["white", "black"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-  },
-  {
-    id: 3,
-    name: "Abstract Art Design",
-    price: 32.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.9,
-    reviews: 156,
-    category: "artistic",
-    colors: ["black", "navy", "white"],
-    sizes: ["M", "L", "XL"],
-  },
-  {
-    id: 4,
-    name: "Retro Gaming Tee",
-    price: 27.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.7,
-    reviews: 203,
-    category: "gaming",
-    colors: ["black", "gray", "navy"],
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    id: 5,
-    name: "Nature Photography Print",
-    price: 31.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.5,
-    reviews: 67,
-    category: "nature",
-    colors: ["white", "cream"],
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    id: 6,
-    name: "Typography Quote Tee",
-    price: 26.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.4,
-    reviews: 91,
-    category: "typography",
-    colors: ["black", "white", "gray"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-  },
-]
+const getColorClass = (color: string) => {
+  switch (color) {
+    case "black":
+      return "bg-black"
+    case "white":
+      return "bg-white border border-gray-300"
+    case "gray":
+      return "bg-gray-400"
+    case "heather-gray":
+      return "bg-gray-300"
+    case "navy":
+      return "bg-blue-900"
+    case "cream":
+      return "bg-yellow-100"
+    case "sage":
+      return "bg-green-200"
+    case "pink":
+      return "bg-pink-300"
+    case "blue":
+      return "bg-blue-500"
+    case "red":
+      return "bg-red-500"
+    default:
+      return "bg-gray-200"
+  }
+}
 
 export default function ProductsPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [sortBy, setSortBy] = useState("featured")
-  const [filterCategory, setFilterCategory] = useState("all")
+  const [searchTerm, setSearchTerm] = useState<string>("")
+  const [sortBy, setSortBy] = useState<SortOption>("featured")
+  const [filterCategory, setFilterCategory] = useState<string>("all")
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = filterCategory === "all" || product.category === filterCategory
+  // Estado para camisetas y estampas desde la API
+  const [prints, setPrints] = useState<Print[]>([])
+  const [printsLoading, setPrintsLoading] = useState(true)
+  const [printsError, setPrintsError] = useState<string | null>(null)
+
+  const [tshirtModels, setTshirtModels] = useState<TshirtModel[]>([])
+  const [tshirtsLoading, setTshirtsLoading] = useState(true)
+  const [tshirtsError, setTshirtsError] = useState<string | null>(null)
+
+  useEffect(() => {
+    // Fetch estampas
+    const fetchPrints = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/EstampaController/listadoEstampas")
+        if (!res.ok) throw new Error("Error al cargar las estampas")
+        const data = await res.json()
+        setPrints(data)
+      } catch (err: any) {
+        setPrintsError(err.message || "Error desconocido")
+      } finally {
+        setPrintsLoading(false)
+      }
+    }
+    // Fetch camisetas
+    const fetchTshirts = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/CamisetaController/listadoCamisetas")
+        if (!res.ok) throw new Error("Error al cargar las camisetas")
+        const data = await res.json()
+        setTshirtModels(data)
+      } catch (err: any) {
+        setTshirtsError(err.message || "Error desconocido")
+      } finally {
+        setTshirtsLoading(false)
+      }
+    }
+    fetchPrints()
+    fetchTshirts()
+  }, [])
+
+  // Adaptar el filtrado y ordenamiento a la nueva estructura de datos
+  const filteredPrints: Print[] = prints.filter((print) => {
+    const matchesSearch =
+      (print.nombre?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (print.tema?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (print.descripcion?.toLowerCase() || "").includes(searchTerm.toLowerCase())
+    const matchesCategory = filterCategory === "all" || (print.tema?.toLowerCase() === filterCategory)
     return matchesSearch && matchesCategory
   })
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case "price-low":
-        return a.price - b.price
-      case "price-high":
-        return b.price - a.price
-      case "rating":
-        return b.rating - a.rating
-      default:
-        return 0
-    }
+  const filteredTshirts: TshirtModel[] = tshirtModels.filter((tshirt) => {
+    const matchesSearch =
+      (tshirt.color?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (tshirt.material?.toLowerCase() || "").includes(searchTerm.toLowerCase())
+    const matchesCategory = filterCategory === "all" || (tshirt.talla?.toLowerCase() === filterCategory)
+    return matchesSearch && matchesCategory
   })
+
+  // Helper type guards
+  function isPrint(item: Print | TshirtModel): item is Print {
+    return (item as Print).precioBase !== undefined
+  }
+  function isTshirt(item: Print | TshirtModel): item is TshirtModel {
+    return (item as TshirtModel).precio !== undefined
+  }
+
+  const sortItems = <T extends Print | TshirtModel>(items: T[]): T[] => {
+    return [...items].sort((a, b) => {
+      switch (sortBy) {
+        case "price-low":
+          return (
+            (isPrint(a) ? a.precioBase : isTshirt(a) ? a.precio : 0) -
+            (isPrint(b) ? b.precioBase : isTshirt(b) ? b.precio : 0)
+          )
+        case "price-high":
+          return (
+            (isPrint(b) ? b.precioBase : isTshirt(b) ? b.precio : 0) -
+            (isPrint(a) ? a.precioBase : isTshirt(a) ? a.precio : 0)
+          )
+        case "rating":
+        case "popular":
+          // Solo los Print tienen rating, para camisetas será 0
+          return (isPrint(b) ? b.rating : 0) - (isPrint(a) ? a.rating : 0)
+        default:
+          return 0
+      }
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">All Products</h1>
-          <p className="text-gray-600">Discover our complete collection of custom t-shirts</p>
+          <h1 className="text-3xl font-bold mb-4">Explora nuestra colección</h1>
+          <p className="text-gray-600">Descubre estampados increíbles y modelos de camisetas premium para tus diseños personalizados.</p>
         </div>
 
         {/* Filters and Search */}
@@ -119,110 +148,192 @@ export default function ProductsPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
-                  placeholder="Search products..."
+                  placeholder="Buscar por nombre, tema o descripción..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
               </div>
             </div>
-            <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="w-full md:w-48">
-                <Filter className="h-4 w-4 mr-2" />
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="vintage">Vintage</SelectItem>
-                <SelectItem value="minimalist">Minimalist</SelectItem>
-                <SelectItem value="artistic">Artistic</SelectItem>
-                <SelectItem value="gaming">Gaming</SelectItem>
-                <SelectItem value="nature">Nature</SelectItem>
-                <SelectItem value="typography">Typography</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={sortBy} onValueChange={setSortBy}>
+            <Select value={sortBy} onValueChange={value => setSortBy(value as SortOption)}>
               <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="featured">Featured</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
+                <SelectItem value="price-low">Precio: menor a mayor</SelectItem>
+                <SelectItem value="price-high">Precio: mayor a menor</SelectItem>
+                <SelectItem value="rating">Mejores Rateados</SelectItem>
+                <SelectItem value="popular">Mas Populares</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {sortedProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-lg transition-shadow">
-              <CardContent className="p-0">
-                <div className="relative">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    className="w-full h-64 object-cover rounded-t-lg"
-                  />
-                  {product.originalPrice && <Badge className="absolute top-2 left-2 bg-red-500">Sale</Badge>}
-                  <Button
-                    size="sm"
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <ShoppingCart className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">{product.name}</h3>
-                  <div className="flex items-center gap-1 mb-2">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm text-gray-600">
-                      {product.rating} ({product.reviews})
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg font-bold">${product.price}</span>
-                    {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
-                    )}
-                  </div>
-                  <div className="flex gap-1 mb-2">
-                    {product.colors.map((color) => (
-                      <div
-                        key={color}
-                        className={`w-4 h-4 rounded-full border-2 border-gray-300 ${
-                          color === "black"
-                            ? "bg-black"
-                            : color === "white"
-                              ? "bg-white"
-                              : color === "gray"
-                                ? "bg-gray-400"
-                                : color === "navy"
-                                  ? "bg-blue-900"
-                                  : color === "cream"
-                                    ? "bg-yellow-100"
-                                    : "bg-gray-200"
-                        }`}
-                      />
+        {/* Tabs for Prints and T-Shirts */}
+        <Tabs defaultValue="prints" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="prints" className="flex items-center gap-2">
+              <Palette className="h-4 w-4" />
+              Estampas ({filteredPrints.length})
+            </TabsTrigger>
+            <TabsTrigger value="tshirts" className="flex items-center gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              Modelos de Camisetas ({filteredTshirts.length})
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Prints Tab */}
+          <TabsContent value="prints">
+            {printsLoading ? (
+              <div className="text-center text-lg">Cargando estampas...</div>
+            ) : printsError ? (
+              <div className="text-center text-red-500">{printsError}</div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <div className="flex gap-2 flex-wrap">
+                    <Button
+                      variant={filterCategory === "all" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setFilterCategory("all")}
+                    >
+                      Todas las Categorías
+                    </Button>
+                    {[...new Set(prints.map((p) => p.tema))].filter(Boolean).map((category) => (
+                      <Button
+                        key={category}
+                        variant={filterCategory === (category?.toLowerCase() ?? "") ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setFilterCategory(category?.toLowerCase() ?? "")}
+                      >
+                        {category}
+                      </Button>
                     ))}
                   </div>
-                  <p className="text-xs text-gray-500">Sizes: {product.sizes.join(", ")}</p>
                 </div>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Link href={`/products/${product.id}`} className="w-full">
-                  <Button className="w-full">View Details</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
 
-        {sortedProducts.length === 0 && (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {sortItems(filteredPrints).map((print) => (
+                    <Card key={print.id} className="group hover:shadow-lg transition-shadow">
+                      <CardContent className="p-0">
+                        <div className="relative">
+                          <img
+                            src={print.imagenes?.[0]?.url || "/placeholder.svg"}
+                            alt={print.nombre}
+                            className="w-full h-64 object-cover rounded-t-lg"
+                          />
+                          <Badge className="absolute top-2 left-2" variant="secondary">
+                            {print.tema}
+                          </Badge>
+                          <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button size="sm" className="h-8 w-8 rounded-full p-0">
+                              <Heart className="h-4 w-4" />
+                            </Button>
+                            <Button size="sm" className="h-8 w-8 rounded-full p-0">
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold mb-1">{print.nombre}</h3>
+                          <div className="flex items-center gap-1 mb-2">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            <span className="text-sm text-gray-600">
+                              {print.rating}
+                            </span>
+                          </div>
+                          <div className="text-lg font-bold text-purple-600">${print.precioBase}</div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="pt-0">
+                        <Link href={`/custom-design?print=${print.id}`} className="w-full">
+                          <Button className="w-full">Diseña ya</Button>
+                        </Link>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
+          </TabsContent>
+
+          {/* T-Shirts Tab */}
+          <TabsContent value="tshirts">
+            {tshirtsLoading ? (
+              <div className="text-center text-lg">Cargando camisetas...</div>
+            ) : tshirtsError ? (
+              <div className="text-center text-red-500">{tshirtsError}</div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <div className="flex gap-2 flex-wrap">
+                    <Button
+                      variant={filterCategory === "all" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setFilterCategory("all")}
+                    >
+                      Todas las Tallas
+                    </Button>
+                    {[...new Set(tshirtModels.map((t) => t.talla))].filter(Boolean).map((category) => (
+                      <Button
+                        key={category}
+                        variant={filterCategory === (category?.toLowerCase() ?? "") ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setFilterCategory(category?.toLowerCase() ?? "")}
+                      >
+                        {category}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {sortItems(filteredTshirts).map((tshirt) => (
+                    <Card key={tshirt.id} className="group hover:shadow-lg transition-shadow">
+                      <CardContent className="p-0">
+                        <div className="relative">
+                          <img
+                            src={tshirt.urlImagen || "/placeholder.svg"}
+                            alt={`Camiseta ${tshirt.color} ${tshirt.talla}`}
+                            className="w-full h-64 object-cover rounded-t-lg"
+                          />
+                          <Button
+                            size="sm"
+                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <ShoppingCart className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold mb-2">{tshirt.color} - Talla {tshirt.talla}</h3>
+                          <p className="text-sm text-gray-600 mb-2">{tshirt.material}</p>
+                          <div className="flex gap-1 mb-2">
+                            <div
+                              className={`w-4 h-4 rounded-full ${getColorClass(tshirt.color)}`}
+                              title={tshirt.color}
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 mb-3">Stock: {tshirt.stock?.capacidad ?? 0}</p>
+                          <div className="text-lg font-bold">${tshirt.precio}</div>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="pt-0">
+                        <Link href={`/custom-design?model=${tshirt.id}`} className="w-full">
+                          <Button className="w-full">Personaliza este Modelo</Button>
+                        </Link>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
+          </TabsContent>
+        </Tabs>
+
+        {filteredPrints.length === 0 && filteredTshirts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
+            <p className="text-gray-500 text-lg">No items found matching your criteria.</p>
           </div>
         )}
       </div>

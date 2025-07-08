@@ -16,6 +16,10 @@ import java.util.List;
 @Table(name="cliente")
 public class Cliente extends Usuario {
 
+    public Cliente(UsuarioBuilder<?, ?> b) {
+        super(b);
+    }
+
     @OneToMany(targetEntity = Pedido.class, fetch = FetchType.LAZY, mappedBy = "cliente")
     private List<Pedido> pedidos;
 

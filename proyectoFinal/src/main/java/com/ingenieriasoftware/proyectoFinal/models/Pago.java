@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.ingenieriasoftware.proyectoFinal.util.constant.MetodoPagoEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +20,12 @@ public class Pago {
     private Long id;
     private String nombre;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private Long cedula;
-    private EnumType metodosPago;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodos_pago")
+    private MetodoPagoEnum metodosPago;
 
     @Column(name="id_transaccion")
     private String idTransaccion;
@@ -31,6 +35,7 @@ public class Pago {
 
     @Column(name="fecha_transaccion", columnDefinition = "DATE", nullable = false)
     private Date fechaTransaccion;
+
     private String estado;
     private String plataforma;
 }

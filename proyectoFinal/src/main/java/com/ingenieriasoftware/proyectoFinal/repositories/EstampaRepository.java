@@ -9,4 +9,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EstampaRepository extends CrudRepository<Estampa, Long> {
+
+    // Aquí puedes agregar métodos personalizados si es necesario
+    // Por ejemplo, para buscar estampas por nombre, categoría, etc.
+
+
 }

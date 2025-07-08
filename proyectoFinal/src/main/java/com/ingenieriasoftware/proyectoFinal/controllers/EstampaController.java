@@ -1,6 +1,7 @@
 package com.ingenieriasoftware.proyectoFinal.controllers;
 
 import com.ingenieriasoftware.proyectoFinal.dtos.EstampaDTO;
+import com.ingenieriasoftware.proyectoFinal.models.Estampa;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class EstampaController {
 
     @GetMapping("/listadoEstampas")
     public ResponseEntity<List<EstampaDTO>> listaEstampas() {
-        return new ResponseEntity<>(this.estampaService.findAll(), HttpStatus.OK);
+
+        List<EstampaDTO> estampas = this.estampaService.findAll();
+
+        return new ResponseEntity<>(estampas, HttpStatus.OK);
     }
 }

@@ -1,6 +1,7 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class Pedido {
     @OneToOne(targetEntity = Pago.class)
     private Pago pago;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Cliente.class)
     private Cliente cliente;
 
