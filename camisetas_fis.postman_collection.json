@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "1390c20f-10fc-4969-b203-e8258d204f9f",
+		"_postman_id": "3337d3d9-31ef-4364-87b2-13ab73f6a612",
 		"name": "camisetas_fis",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38247252"
+		"_exporter_id": "46200623",
+		"_collection_link": "https://jpmc-2228543.postman.co/workspace/Jpmc's-Workspace~3f80b77c-5092-4a71-80e1-f1a224c25632/collection/46200623-3337d3d9-31ef-4364-87b2-13ab73f6a612?action=share&source=collection_link&creator=46200623"
 	},
 	"item": [
 		{
@@ -13,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"jonaArtista\",\r\n    \"password\":\"jonaArtista\",\r\n    \"email\":\"jonaArtista@gmail.com\",\r\n    \"rol\": \"artista\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"admin\",\r\n    \"password\":\"admin\",\r\n    \"email\":\"admin@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"javier@gmail.com\",\r\n    \"password\": \"javier\"\r\n}",
+					"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -69,7 +70,14 @@
 			},
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTMwOTcyMSwiZXhwIjoxNzUxMzEzMzIxfQ.TxJ7X6o_TCM2qE7eunMquYphQHvgUvpDrZags8ZY3Ms",
+							"type": "string"
+						}
+					]
 				},
 				"method": "GET",
 				"header": [],
@@ -100,23 +108,8 @@
 		{
 			"name": "ListadoEstampas",
 			"request": {
-				"auth": {
-					"type": "noauth"
-				},
 				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/EstampaController/listadoEstampas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"EstampaController",
-						"listadoEstampas"
-					]
-				}
+				"header": []
 			},
 			"response": []
 		},
@@ -128,16 +121,22 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTk4NjYwMSwiZXhwIjoxNzUxOTkwMjAxfQ.UVs7QVoBGzuQbIMRZ7IncEYMEW6Gmlg9dKicpZIXi48",
 							"type": "string"
 						}
 					]
 				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"camiseta\": {\"id\":1},\r\n    \"itemCarrito\": {\"id\":5},\r\n    \"estampasAplicadas\": null\r\n}",
+					"raw": "{\r\n  \"camiseta\": { \"id\": 1 },\r\n  \"itemCarrito\": { \"id\": 5 },\r\n  \"estampasAplicadas\": null\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -145,7 +144,8 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/CamisetaEstampadaController/creacion",
+					"raw": "http://localhost:8080/CamisetaEstampadaController/creacion",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -153,117 +153,6 @@
 					"path": [
 						"CamisetaEstampadaController",
 						"creacion"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "pedido activo by user",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MjE0MTAsImV4cCI6MTc1MTgyNTAxMH0.6JEHNmMDQPGlwkZjKqsPqm9sijFIpVavo6rph-4aDyI",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/carrito/active-by-cliente?idCliente=3",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"carrito",
-						"active-by-cliente"
-					],
-					"query": [
-						{
-							"key": "idCliente",
-							"value": "3"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add itemCarrito",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MTc3MDIsImV4cCI6MTc1MTgyMTMwMn0.2suBM67Mefkn2g63vRNRLbNKQgF5i6HHLFEWOLao6k4",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"idCarrito\": 2,\r\n    \"idCamisetaEstampada\": 9,\r\n    \"cantidad\": 1\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/carrito/add-item-carrito",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"carrito",
-						"add-item-carrito"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "crear pago",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZpZXIiLCJpYXQiOjE3NTE4MjE0MTAsImV4cCI6MTc1MTgyNTAxMH0.6JEHNmMDQPGlwkZjKqsPqm9sijFIpVavo6rph-4aDyI",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"idPedido\": 3\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/pago/crear-pago",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"pago",
-						"crear-pago"
 					]
 				}
 			},
