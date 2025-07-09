@@ -82,48 +82,122 @@ export default function CustomDesignPage() {
     return total.toFixed(2)
   }
 
-  // Nueva función para guardar el diseño
-  const handleSaveDesign = async () => {
+  // Nueva función: crea la camisetaEstampada y retorna el id
+  const createCamisetaEstampada = async () => {
     if (!selectedTshirt || !selectedPrint) {
       alert("Selecciona una camiseta y un diseño antes de guardar.")
-      return
+      return null
     }
-
-    // Genera coordenadas y tamaño aleatorios para la estampa seleccionada
     const randomCoords = () => ({
       coordX: parseFloat((Math.random() * 100).toFixed(1)),
       coordY: parseFloat((Math.random() * 100).toFixed(1)),
-      tamano: parseFloat((Math.random() * 3 + 0.5).toFixed(2)), // tamaño entre 0.5 y 3.5
+      tamano: parseFloat((Math.random() * 3 + 0.5).toFixed(2)),
       estampaId: selectedPrint.id,
     })
-
-    // Puedes agregar más de una estampa si lo deseas, aquí solo una
     const estampasAplicadas = {
       "1": randomCoords()
     }
-
+    const token = getAuthToken()
+    const body = {
+      camiseta: { id: selectedTshirt.id },
+      precioCamiseta: Number(calculateTotal()),
+      estampasAplicadas: estampasAplicadas,
+    }
+    console.log("Enviando a /CamisetaEstampadaController/creacion:", body)
     try {
-      const token = getAuthToken()
       const response = await fetch("http://localhost:8080/CamisetaEstampadaController/creacion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({
-          camiseta: { id: selectedTshirt.id },
-          precioCamiseta: Number(calculateTotal()),
-          estampasAplicadas: estampasAplicadas,
-        }),
+        body: JSON.stringify(body),
       })
       if (!response.ok) {
         const errorData = await response.json()
+        console.log("Error al crear camisetaEstampada:", errorData)
         alert(errorData.message || "Error al guardar el diseño.")
+        return null
+      }
+      const data = await response.json()
+      console.log("Respuesta de /CamisetaEstampadaController/creacion:", data)
+      // Guarda en localStorage el id y los datos relevantes
+      localStorage.setItem(
+        "camisetaEstampada",
+        JSON.stringify({
+          idCamisetaEstampada: data.id,
+          camiseta: body.camiseta,
+          precioCamiseta: body.precioCamiseta,
+          estampasAplicadas: body.estampasAplicadas,
+        })
+      )
+      return data.id
+    } catch (err) {
+      console.log("Error en fetch camisetaEstampada:", err)
+      alert("Error al guardar el diseño.")
+      return null
+    }
+  }
+
+  // Modifica la función para añadir al carrito: primero crea la camisetaEstampada si no existe
+  const addToCart = async () => {
+    let camisetaEstampadaData = JSON.parse(localStorage.getItem("camisetaEstampada") || "{}")
+    let idCamisetaEstampada = camisetaEstampadaData.idCamisetaEstampada
+    if (!idCamisetaEstampada) {
+      // Si no existe, crea primero la camisetaEstampada
+      idCamisetaEstampada = await createCamisetaEstampada()
+      if (!idCamisetaEstampada) {
+        alert("No se pudo crear la camiseta personalizada.")
         return
       }
-      alert("¡Diseño guardado exitosamente!")
+      // Actualiza el objeto en localStorage
+      camisetaEstampadaData = JSON.parse(localStorage.getItem("camisetaEstampada") || "{}")
+    }
+    // Obtener el id del carrito activo desde localStorage
+    const idCarrito = localStorage.getItem("idCarritoActivo")
+    console.log("Valor de idCarritoActivo en localStorage al añadir al carrito:", idCarrito)
+    if (!idCamisetaEstampada || !idCarrito) {
+      alert("No se encontró la camiseta personalizada o el carrito activo.")
+      return
+    }
+    try {
+      const token = getAuthToken()
+      const body = {
+        idCarrito: Number(idCarrito),
+        idCamisetaEstampada: Number(idCamisetaEstampada),
+        cantidad: 1,
+      }
+      console.log("Enviando a /carrito/add-item-carrito:", body)
+      // Nuevo console.log explícito para el prompt
+      console.log("Body enviado a localhost:8080/carrito/add-item-carrito:", JSON.stringify(body))
+      const response = await fetch("http://localhost:8080/carrito/add-item-carrito", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(body),
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.log("Error al añadir al carrito:", errorData)
+        alert("Error al añadir al carrito")
+        return
+      }
+      const data = await response.json()
+      console.log("Respuesta de /carrito/add-item-carrito:", data)
+      alert("¡Añadido al carrito!")
     } catch (err) {
-      alert("Error al guardar el diseño.")
+      console.log("Error en fetch add-item-carrito:", err)
+      alert("Error al añadir al carrito")
+    }
+  }
+
+  // La función para guardar diseño sigue igual, pero con logs
+  const handleSaveDesign = async () => {
+    const id = await createCamisetaEstampada()
+    if (id) {
+      alert("¡Diseño guardado exitosamente!")
     }
   }
 
@@ -285,7 +359,7 @@ export default function CustomDesignPage() {
                       <span className="text-lg font-semibold">Total: ${calculateTotal()}</span>
                     </div>
                     <div className="flex gap-2">
-                      <Button className="flex-1">
+                      <Button className="flex-1" onClick={addToCart}>
                         <ShoppingCart className="h-4 w-4 mr-2" />
                         Añadir al carrito
                       </Button>

@@ -55,10 +55,13 @@ export default function LoginPage() {
       // Extraer el primer rol del array roles
       const userRole = Array.isArray(data.roles) && data.roles.length > 0 ? data.roles[0] : undefined
 
+      // Guardar el id del usuario autenticado
+      const userId = data.id
+
       // Mock successful login
       const mockToken = data.token
       const mockUser: User = {
-        id: "1",
+        id: String(userId),
         firstName: data.nombre,
         lastName: "Doe",
         email: data.email,
@@ -88,10 +91,10 @@ export default function LoginPage() {
       setAuthToken(mockToken)
       setUserData(mockUser)
 
-      // Obtener el carrito activo del cliente (idCliente=2 como ejemplo)
+      // Obtener el carrito activo del cliente usando el id recibido del login
       try {
         const token = getAuthToken()
-        const carritoRes = await fetch("http://localhost:8080/carrito/active-by-cliente?idCliente=2", {
+        const carritoRes = await fetch(`http://localhost:8080/carrito/active-by-cliente?idCliente=${userId}`, {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -103,12 +106,17 @@ export default function LoginPage() {
           if (!Array.isArray(carritoData.elementosCarrito)) {
             carritoData.elementosCarrito = []
           }
-          console.log(carritoData.elementosCarrito, carritoData)
+          console.log("Carrito recibido del backend:", carritoData)
           setCarritoActivo(carritoData)
+          console.log("Carrito activo establecido:", carritoData)
+          // Guardar carrito activo en localStorage
+          localStorage.setItem("carritoActivo", JSON.stringify(carritoData))
+          localStorage.setItem("idCarritoActivo", String(carritoData.id))
+          // Verifica inmediatamente después de guardar
+          console.log("idCarritoActivo guardado en localStorage:", localStorage.getItem("idCarritoActivo"))
           console.log("Carrito activo guardado:", carritoData)
         } else {
           console.warn("No se pudo obtener el carrito activo")
-          // Si la respuesta no es ok, limpia el carrito activo
           setCarritoActivo({
             id: 0,
             fechaCreacion: null,
@@ -116,6 +124,8 @@ export default function LoginPage() {
             totalCarrito: 0,
             elementosCarrito: [],
           })
+          localStorage.removeItem("carritoActivo")
+          localStorage.removeItem("idCarritoActivo")
         }
       } catch (carritoErr) {
         console.error("Error al obtener el carrito activo:", carritoErr)
@@ -126,6 +136,8 @@ export default function LoginPage() {
           totalCarrito: 0,
           elementosCarrito: [],
         })
+        localStorage.removeItem("carritoActivo")
+        localStorage.removeItem("idCarritoActivo")
       }
 
       // Redirect to profile

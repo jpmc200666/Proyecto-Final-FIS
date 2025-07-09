@@ -116,7 +116,7 @@ export const getRoleInfo = (role: User["role"]) => {
         case "usuario":
         default:
             return {
-                label: "Usuario",
+                label: "Cliente",
                 color: "bg-blue-100 text-blue-800",
                 description: "Puede comprar y personalizar camisetas",
             }
