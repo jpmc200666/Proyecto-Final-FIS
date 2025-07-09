@@ -88,6 +88,20 @@ export default function CustomDesignPage() {
       alert("Selecciona una camiseta y un diseño antes de guardar.")
       return
     }
+
+    // Genera coordenadas y tamaño aleatorios para la estampa seleccionada
+    const randomCoords = () => ({
+      coordX: parseFloat((Math.random() * 100).toFixed(1)),
+      coordY: parseFloat((Math.random() * 100).toFixed(1)),
+      tamano: parseFloat((Math.random() * 3 + 0.5).toFixed(2)), // tamaño entre 0.5 y 3.5
+      estampaId: selectedPrint.id,
+    })
+
+    // Puedes agregar más de una estampa si lo deseas, aquí solo una
+    const estampasAplicadas = {
+      "1": randomCoords()
+    }
+
     try {
       const token = getAuthToken()
       const response = await fetch("http://localhost:8080/CamisetaEstampadaController/creacion", {
@@ -98,8 +112,8 @@ export default function CustomDesignPage() {
         },
         body: JSON.stringify({
           camiseta: { id: selectedTshirt.id },
-          costo: Number(calculateTotal()),
-          estampasAplicadas: { id: selectedPrint.id },
+          precioCamiseta: Number(calculateTotal()),
+          estampasAplicadas: estampasAplicadas,
         }),
       })
       if (!response.ok) {
