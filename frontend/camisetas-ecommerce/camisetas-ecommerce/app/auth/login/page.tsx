@@ -11,7 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Mail, Lock, Shirt, AlertCircle } from "lucide-react"
-import { setAuthToken, setUserData, isAuthenticated, type User } from "@/lib/auth"
+import {setAuthToken, setUserData, isAuthenticated, type User, getAuthToken} from "@/lib/auth"
+import { setCarritoActivo, type Carrito } from "@/lib/products"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -49,6 +50,7 @@ export default function LoginPage() {
       }
       const data = await response.json()
       // Mostrar los roles en consola
+      console.log(data)
       console.log("Roles del usuario:", data.roles)
       // Extraer el primer rol del array roles
       const userRole = Array.isArray(data.roles) && data.roles.length > 0 ? data.roles[0] : undefined
@@ -85,6 +87,46 @@ export default function LoginPage() {
       console.log(mockUser)
       setAuthToken(mockToken)
       setUserData(mockUser)
+
+      // Obtener el carrito activo del cliente (idCliente=2 como ejemplo)
+      try {
+        const token = getAuthToken()
+        const carritoRes = await fetch("http://localhost:8080/carrito/active-by-cliente?idCliente=2", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        if (carritoRes.ok) {
+          const carritoData: Carrito = await carritoRes.json()
+          // Asegura que elementosCarrito siempre sea un array aunque venga vacío o undefined
+          if (!Array.isArray(carritoData.elementosCarrito)) {
+            carritoData.elementosCarrito = []
+          }
+          console.log(carritoData.elementosCarrito, carritoData)
+          setCarritoActivo(carritoData)
+          console.log("Carrito activo guardado:", carritoData)
+        } else {
+          console.warn("No se pudo obtener el carrito activo")
+          // Si la respuesta no es ok, limpia el carrito activo
+          setCarritoActivo({
+            id: 0,
+            fechaCreacion: null,
+            vigencia: 0,
+            totalCarrito: 0,
+            elementosCarrito: [],
+          })
+        }
+      } catch (carritoErr) {
+        console.error("Error al obtener el carrito activo:", carritoErr)
+        setCarritoActivo({
+          id: 0,
+          fechaCreacion: null,
+          vigencia: 0,
+          totalCarrito: 0,
+          elementosCarrito: [],
+        })
+      }
 
       // Redirect to profile
       router.push("/profile")

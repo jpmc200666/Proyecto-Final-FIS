@@ -75,3 +75,40 @@ export interface FilterState {
     sortBy: SortOption
     filterCategory: FilterCategory
 }
+
+// Interfaces para el carrito
+export interface ElementoCarrito {
+    id: number
+    cantidad: number
+    camisetaEstampada: {
+        id: number
+        precioCamiseta: number
+        estampasAplicadas: any
+    } | null
+}
+
+export interface Carrito {
+    id: number
+    fechaCreacion: string | null
+    vigencia: number
+    totalCarrito: number
+    elementosCarrito: ElementoCarrito[]
+}
+
+// Helpers para guardar y obtener el carrito en localStorage
+const CARRITO_KEY = "carrito_activo"
+
+export const setCarritoActivo = (carrito: Carrito) => {
+    if (typeof window !== "undefined") {
+        localStorage.setItem(CARRITO_KEY, JSON.stringify(carrito))
+    }
+}
+
+export const getCarritoActivo = (): Carrito | null => {
+    if (typeof window !== "undefined") {
+        const data = localStorage.getItem(CARRITO_KEY)
+        if (!data) return null
+        return JSON.parse(data)
+    }
+    return null
+}

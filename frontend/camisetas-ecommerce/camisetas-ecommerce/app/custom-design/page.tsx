@@ -8,8 +8,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import SlideMenu from "@/components/slide-menu"
-import { Type, Palette, Download, ShoppingCart, Shirt } from "lucide-react"
+import { Type, Palette, Save, ShoppingCart, Shirt } from "lucide-react"
 import type { Print, TshirtModel, TshirtColor } from "@/lib/products"
+import { getAuthToken } from "@/lib/auth"
 
 
 
@@ -79,6 +80,37 @@ export default function CustomDesignPage() {
     let total = selectedTshirt?.precio ?? 0
     if (selectedPrint) total += selectedPrint.precioBase ?? 0
     return total.toFixed(2)
+  }
+
+  // Nueva función para guardar el diseño
+  const handleSaveDesign = async () => {
+    if (!selectedTshirt || !selectedPrint) {
+      alert("Selecciona una camiseta y un diseño antes de guardar.")
+      return
+    }
+    try {
+      const token = getAuthToken()
+      const response = await fetch("http://localhost:8080/CamisetaEstampadaController/creacion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          camiseta: { id: selectedTshirt.id },
+          costo: Number(calculateTotal()),
+          estampasAplicadas: { id: selectedPrint.id },
+        }),
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        alert(errorData.message || "Error al guardar el diseño.")
+        return
+      }
+      alert("¡Diseño guardado exitosamente!")
+    } catch (err) {
+      alert("Error al guardar el diseño.")
+    }
   }
 
   return (
@@ -243,13 +275,12 @@ export default function CustomDesignPage() {
                         <ShoppingCart className="h-4 w-4 mr-2" />
                         Añadir al carrito
                       </Button>
-                      {/* Button to save design, can be expanded later
-                      <Button variant="outline">
 
-                          <Download className="h-4 w-4 mr-2" />
+                      <Button variant="outline" onClick={handleSaveDesign}>
+                        <Save className="h-4 w-4 mr-2" />
                         Guardar diseño
                       </Button>
-                      */}
+
                     </div>
                   </div>
                 </CardContent>
