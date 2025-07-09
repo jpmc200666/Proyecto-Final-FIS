@@ -121,7 +121,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTk4NjYwMSwiZXhwIjoxNzUxOTkwMjAxfQ.UVs7QVoBGzuQbIMRZ7IncEYMEW6Gmlg9dKicpZIXi48",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MjAyOTEwNiwiZXhwIjoxNzUyMDMyNzA2fQ.1StfaSiO3y60fa2eO6fMCMqcc8Au3aKiFJMn_JatGXQ",
 							"type": "string"
 						}
 					]
@@ -131,12 +131,13 @@
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"camiseta\": { \"id\": 1 },\r\n  \"itemCarrito\": { \"id\": 5 },\r\n  \"estampasAplicadas\": null\r\n}",
+					"raw": "{\r\n  \"camiseta\": { \"id\": 1 },\r\n  \"precioCamiseta\": 40000.0,\r\n  \"estampasAplicadas\": {\r\n    \"1\": {\r\n      \"coordX\": 10.0,\r\n      \"coordY\": 20.0,\r\n      \"tamano\": 1.0,\r\n      \"estampaId\": 2 // ¡Nuevo campo para el ID de la estampa!\r\n    },\r\n    \"2\": {\r\n      \"coordX\": 30.0,\r\n      \"coordY\": 40.0,\r\n      \"tamano\": 2.5,\r\n      \"estampaId\": 3 // Otro ID de estampa\r\n    }\r\n  }\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
