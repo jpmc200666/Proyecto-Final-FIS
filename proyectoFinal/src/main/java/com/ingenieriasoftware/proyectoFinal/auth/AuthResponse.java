@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Genera un constructor sin parámetros.
 public class AuthResponse {
 
+    Long id;
     // Token de acceso generado tras la autenticación.
     String token;
 

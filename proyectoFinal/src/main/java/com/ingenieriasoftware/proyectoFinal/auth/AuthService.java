@@ -72,6 +72,7 @@ public class AuthService {
 
         // Construye y retorna la respuesta de autenticación con los datos del usuario y el token.
         return AuthResponse.builder()
+                .id(user.getId())
                 .token(token)
                 .email(user.getEmail())
                 .nombre(user.getNombre())
