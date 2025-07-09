@@ -1,5 +1,6 @@
 package com.ingenieriasoftware.proyectoFinal.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,12 +26,14 @@ public class PropsEstampaAplicada {
 
     // Relación a CamisetaEstampada: Usamos @MapsId para mapear parte de la clave compuesta
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @MapsId("camisetaEstampadaId") // Mapea 'camisetaEstampadaId' de PropsEstampaAplicadaId a esta relación
     @JoinColumn(name = "camiseta_estampada_id") // Columna FK en esta tabla (parte de la PK compuesta)
     private CamisetaEstampada camisetaEstampada;
 
     // Relación a Estampa: Usamos @MapsId para mapear parte de la clave compuesta
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @MapsId("estampaId") // Mapea 'estampaId' de PropsEstampaAplicadaId a esta relación
     @JoinColumn(name = "estampa_id") // Columna FK en esta tabla (parte de la PK compuesta)
     private Estampa estampa;
